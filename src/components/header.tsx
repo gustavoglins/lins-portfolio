@@ -45,16 +45,28 @@ export default function Header({ locale }: { locale: string }) {
       <nav>
         <ul className="flex items-center gap-4">
           <li>
-            <Link href={`/${locale}/about`}>About</Link>
+            <Button
+              variant="ghost"
+              onClick={handleToggleLocale}
+              aria-label={`Switch language (current: ${locale})`}
+            >
+              <Image
+                src={flagByLocale[locale] ?? '/images/usa-flag.svg'}
+                alt={`${locale} flag`}
+                width={29}
+                height={20}
+              />
+            </Button>
           </li>
           <li>
-            <Link href={`/${locale}/experience`}>Experience</Link>
+            <Button size="lg" variant="secondary">
+              Downlaod CV <Download />
+            </Button>
           </li>
           <li>
-            <Link href={`/${locale}/projects`}>Projects</Link>
-          </li>
-          <li>
-            <Link href={`/${locale}/contact`}>Contact</Link>
+            <Button size="lg">
+              Menu <Menu />
+            </Button>
           </li>
         </ul>
       </nav>

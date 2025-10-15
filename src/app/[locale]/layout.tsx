@@ -7,6 +7,8 @@ import { Playfair_Display, Poppins } from 'next/font/google';
 import { notFound } from 'next/navigation';
 import './globals.css';
 import WarningBanner from '@/components/WarningBanner';
+import Home from './components/home';
+import About from './components/about';
 
 const poppins = Poppins({
   variable: '--font-poppins',
@@ -45,13 +47,13 @@ export default async function RootLayout({ children, params }: Props) {
     <html lang="en">
       <body className={`${poppins.variable} ${playfair.variable} antialiased`}>
         <WarningBanner />
+        {/* <div className="h-full w-full px-20 py-12.5"> */}
         <div className="h-full w-full px-20 py-12.5">
           <NextIntlClientProvider>
-            <div className="h-full w-full">
-              <Header locale={locale} />
-              {children}
-              <Aside />
-            </div>
+            {/* <Header locale={locale} /> */}
+            <Home />
+            <About />
+            <Aside />
           </NextIntlClientProvider>
         </div>
       </body>
