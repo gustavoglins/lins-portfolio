@@ -30,7 +30,8 @@ export default function CodeBlock({ code, language = 'java', fontSize, className
   return (
     <pre className={`rounded bg-transparent p-0 overflow-auto ${className ?? ''}`} style={style}>
       <code
-        className="whitespace-pre"
+        // include the language in the className so linters/formatters know it's used
+        className={`whitespace-pre language-${language}`}
         // dangerouslySetInnerHTML used intentionally for simple highlighting
         dangerouslySetInnerHTML={{ __html: highlighted }}
       />
