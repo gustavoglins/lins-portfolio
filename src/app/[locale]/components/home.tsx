@@ -11,11 +11,12 @@ import { SplitText } from 'gsap/SplitText';
 import { Download, Github, Linkedin } from 'lucide-react';
 import { useTranslations } from 'next-intl';
 import Link from 'next/link';
+import CodeBlock from '@/components/CodeBlock';
 import { useEffect, useRef, useState } from 'react';
 
 export default function Home() {
   const t = useTranslations('HomePage');
-  const [showIntro, setShowIntro] = useState(false);
+  const [showIntro, setShowIntro] = useState(true);
 
   gsap.registerPlugin(SplitText);
 
@@ -24,9 +25,12 @@ export default function Home() {
   const paragraphRef = useRef(null);
   const buttonWrapper = useRef<HTMLDivElement>(null);
   const avatarRef = useRef(null);
-  const splitTextInstance = useRef<any>(null);
+  const splitTextInstance = useRef<{
+    chars?: Element[];
+    revert?: (() => void) | undefined;
+  } | null>(null);
 
-  // 🎬 animações do Hero (só disparam depois da intro)
+  // animações do Hero (so dispara depois da intro)
   useEffect(() => {
     if (showIntro) return; // evita animar antes da intro acabar
 
@@ -40,7 +44,7 @@ export default function Home() {
         charsClass: 'char-reveal inline-block overflow-hidden',
       });
 
-      const chars = splitTextInstance.current.chars;
+      const chars = splitTextInstance.current?.chars ?? [];
 
       const tl = gsap.timeline({ delay: 0.8 }); // delay pós-intro
 
@@ -75,9 +79,7 @@ export default function Home() {
 
     return () => {
       ctx.revert();
-      if (splitTextInstance.current) {
-        splitTextInstance.current.revert();
-      }
+      splitTextInstance.current?.revert?.();
     };
   }, [showIntro]);
 
@@ -101,24 +103,41 @@ export default function Home() {
             <nav>
               <ul className='flex gap-8'>
                 <li>
-                  <Link href="#about"><span className='text-foreground'>{'['}</span> About <span className='text-foreground'>{']'}</span></Link>
+                  <Link href="#about" className="group">
+                    <span className="text-foreground group-hover:text-[#ff1744] transition-colors">{'['}</span>
+                    About
+                    <span className="text-foreground group-hover:text-[#ff1744] transition-colors">{']'}</span>
+                  </Link>
                 </li>
                 <li>
-                  <Link href="#about"><span className='text-foreground'>{'['}</span> Experience <span className='text-foreground'>{']'}</span></Link>
+                  <Link href="#about" className="group">
+                    <span className="text-foreground group-hover:text-[#ff1744] transition-colors">{'['}</span>
+                    Experience
+                    <span className="text-foreground group-hover:text-[#ff1744] transition-colors">{']'}</span>
+                  </Link>
                 </li>
                 <li>
-                  <Link href="#about"><span className='text-foreground'>{'['}</span> Projects <span className='text-foreground'>{']'}</span></Link>
+                  <Link href="#about" className="group">
+                    <span className="text-foreground group-hover:text-[#ff1744] transition-colors">{'['}</span>
+                    Projects
+                    <span className="text-foreground group-hover:text-[#ff1744] transition-colors">{']'}</span>
+                  </Link>
                 </li>
                 <li>
-                  <Link href="#about"><span className='text-foreground'>{'['}</span> Contact <span className='text-foreground'>{']'}</span></Link>
+                  <Link href="#about" className="group">
+                    <span className="text-foreground group-hover:text-[#ff1744] transition-colors">{'['}</span>
+                    Contact
+                    <span className="text-foreground group-hover:text-[#ff1744] transition-colors">{']'}</span>
+                  </Link>
                 </li>
               </ul>
             </nav>
           </header>
-          <div className='w-full'>
+          <div className='w-full h-full flex flex-col items-center justify-between pt-35 pb-5'>
+          {/* <div className='w-full flex flex-col items-center justify-between'> */}
             <div className='w-full flex items-center justify-center gap-0'>
               <div className="">
-                <TypographyMuted><span className='text-[#ff1744]'>//</span> Open to Work!</TypographyMuted>
+                <TypographyMuted><span className='text-[#ff1744]'>{'//'}</span> Open to Work!</TypographyMuted>
                 <TypographyH1 ref={titleRef} className="text-8xl font-semibold">
                   Gustavo Lins,
                 </TypographyH1>
@@ -159,10 +178,16 @@ export default function Home() {
                   />
                   <AvatarFallback className="text-9xl font-semibold">GL</AvatarFallback>
                 </Avatar>
-                <TypographyMuted><span className='text-[#ff1744]'>//</span> Gustavo Lins</TypographyMuted>
+                <TypographyMuted><span className='text-[#ff1744]'>{'//'}</span> Gustavo Lins</TypographyMuted>
               </div>
             </div>
             <div>
+              <CodeBlock fontSize={30}
+                code={`while (!success) {
+    tryAgain();
+}`}
+                language="java"
+              />
             </div>
           </div>
 
