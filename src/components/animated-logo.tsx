@@ -12,7 +12,6 @@ export default function AnimatedLogo({ onComplete }: { onComplete?: () => void }
     const paths = svg?.querySelectorAll('path');
     if (!paths) return;
 
-    // 🔹 Estado inicial — traço visível, mas "não desenhado"
     paths.forEach((path) => {
       const length = (path as SVGPathElement).getTotalLength();
       gsap.set(path, {
@@ -36,7 +35,6 @@ export default function AnimatedLogo({ onComplete }: { onComplete?: () => void }
       onComplete,
     });
 
-    // ✏️ Etapa 1: desenha o traço (agora realmente visível)
     tl.to(paths, {
       strokeDashoffset: 0,
       duration: 2.5,
@@ -44,7 +42,6 @@ export default function AnimatedLogo({ onComplete }: { onComplete?: () => void }
       stagger: 0.25,
     });
 
-    // 💥 Etapa 2: gradualmente preenche enquanto o traço se estabiliza
     tl.to(
       paths,
       {
