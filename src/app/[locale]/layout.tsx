@@ -44,7 +44,7 @@ export default async function RootLayout({ children, params }: Props) {
         <WarningBanner />
         <div className="h-full w-full">
           <NextIntlClientProvider>
-            <Header locale={locale} />
+            {/* <Header locale={locale} /> */}
             <Home />
             <About />
             <Aside />

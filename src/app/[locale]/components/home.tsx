@@ -3,12 +3,14 @@
 import AnimatedLogo from '@/components/animated-logo';
 import TypographyH1 from '@/components/typography/TypographyH1';
 import { TypographyLarge } from '@/components/typography/TypographyLarge';
+import { TypographyMuted } from '@/components/typography/TypographyMuted';
 import { Avatar, AvatarFallback, AvatarImage } from '@/components/ui/avatar';
 import { Button } from '@/components/ui/button';
 import { gsap } from 'gsap';
 import { SplitText } from 'gsap/SplitText';
-import { Download } from 'lucide-react';
+import { Download, Github, Linkedin } from 'lucide-react';
 import { useTranslations } from 'next-intl';
+import Link from 'next/link';
 import { useEffect, useRef, useState } from 'react';
 
 export default function Home() {
@@ -40,9 +42,9 @@ export default function Home() {
 
       const chars = splitTextInstance.current.chars;
 
-      const tl = gsap.timeline({ delay: 0.8 }); // pequeno delay pós-intro
+      const tl = gsap.timeline({ delay: 0.8 }); // delay pós-intro
 
-      // 1️⃣ animação do título
+      // animação do título
       tl.from(chars, {
         yPercent: 120,
         rotationX: -30,
@@ -52,7 +54,7 @@ export default function Home() {
         duration: 0.6,
       });
 
-      // 2️⃣ entrada dos outros elementos quase juntos
+      // entrada dos outros elementos quase juntos
       tl.from(
         [
           subtitleRef.current,
@@ -92,37 +94,79 @@ export default function Home() {
           id="home"
           className="h-screen w-full flex items-center justify-between overflow-hidden"
         >
-          <div className="flex-1">
-            <TypographyH1 ref={titleRef} className="text-8xl font-semibold">
-              Gustavo Lins,
+          <header className='absolute top-0 py-12.5 left-0 px-20 w-full flex items-center justify-between'>
+            <TypographyH1 className="uppercase font-semibold tracking-wide">
+              Gustavo
             </TypographyH1>
+            <nav>
+              <ul className='flex gap-8'>
+                <li>
+                  <Link href="#about"><span className='text-foreground'>{'['}</span> About <span className='text-foreground'>{']'}</span></Link>
+                </li>
+                <li>
+                  <Link href="#about"><span className='text-foreground'>{'['}</span> Experience <span className='text-foreground'>{']'}</span></Link>
+                </li>
+                <li>
+                  <Link href="#about"><span className='text-foreground'>{'['}</span> Projects <span className='text-foreground'>{']'}</span></Link>
+                </li>
+                <li>
+                  <Link href="#about"><span className='text-foreground'>{'['}</span> Contact <span className='text-foreground'>{']'}</span></Link>
+                </li>
+              </ul>
+            </nav>
+          </header>
+          <div className='w-full'>
+            <div className='w-full flex items-center justify-center gap-0'>
+              <div className="">
+                <TypographyMuted><span className='text-[#ff1744]'>//</span> Open to Work!</TypographyMuted>
+                <TypographyH1 ref={titleRef} className="text-8xl font-semibold">
+                  Gustavo Lins,
+                </TypographyH1>
 
-            <TypographyH1
-              ref={subtitleRef}
-              className="font-serif font-semibold italic text-8xl py-2 text-[#ff1744]"
-            >
-              {t('subtitle')}
-            </TypographyH1>
+                <TypographyH1
+                  ref={subtitleRef}
+                  className="font-serif font-semibold italic text-8xl py-2 text-[#ff1744]"
+                >
+                  {t('subtitle')}
+                </TypographyH1>
 
-            <TypographyLarge ref={paragraphRef} className="w-[70%] mb-5">
-              {t('paragraph')}
-            </TypographyLarge>
+                <TypographyLarge ref={paragraphRef} className="w-[70%] mb-5">
+                  {t('paragraph')}
+                </TypographyLarge>
 
-            <div ref={buttonWrapper}>
-              <Button variant="secondary" size="lg">
-                Download CV <Download />
-              </Button>
+                <div className='flex gap-5' ref={buttonWrapper}>
+                  <Button variant="secondary" size="lg">
+                    Download CV <Download />
+                  </Button>
+                  <Link href='https://github.com/gustavoglins' target='_blank'>
+                    <Button variant="secondary" size="lg">
+                      Github <Github />
+                    </Button>
+                  </Link>
+                  <Link href='https://www.linkedin.com/in/gustavoglins/' target='_blank'>
+                    <Button variant="secondary" size="lg">
+                      LinkedIn <Linkedin />
+                    </Button>
+                  </Link>
+                </div>
+              </div>
+              <div className='flex flex-col gap-2'>
+                <Avatar variant='portrait' size={1.05} ref={avatarRef} >
+                  <AvatarImage
+                    bw='hover'
+                    src="https://avatars.githubusercontent.com/u/145306272?s=400&u=366f479fd76b067a0a924c52fdb13cae699eca33&v=4"
+                    alt="Profile Picture"
+                  />
+                  <AvatarFallback className="text-9xl font-semibold">GL</AvatarFallback>
+                </Avatar>
+                <TypographyMuted><span className='text-[#ff1744]'>//</span> Gustavo Lins</TypographyMuted>
+              </div>
+            </div>
+            <div>
             </div>
           </div>
 
-          <Avatar variant='portrait' size={2} ref={avatarRef} >
-            <AvatarImage
-              bw='hover'
-              src="ahttps://avatars.githubusercontent.com/u/145306272?s=400&u=366f479fd76b067a0a924c52fdb13cae699eca33&v=4"
-              alt="Profile Picture"
-            />
-            <AvatarFallback className="text-9xl font-semibold">GL</AvatarFallback>
-          </Avatar>
+
         </section>
       )}
     </>
