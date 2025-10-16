@@ -6,9 +6,16 @@ export default function About() {
   return (
     <section className="h-screen w-full bg-foreground">
       <SectionTitle>About</SectionTitle>
-      <TypographyH1 className="text-8xl font-semibold text-background">
-        More about me
-      </TypographyH1>
+      <div className='flex items-baseline gap-5'>
+        <TypographyH1 className="text-8xl font-semibold text-background leading-none">
+          More about
+        </TypographyH1>
+        <TypographyH1
+          className="font-serif font-semibold italic text-8xl text-[#ff1744] -translate-y-[-0.0em]"
+        >
+          {"<me/>"}
+        </TypographyH1>
+      </div>
       <TypographyP className="text-background">
         Software Engineering student with experience in Full Stack development.
         I&apos;m interested in opportunities where I can apply my knowledge,

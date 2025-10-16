@@ -13,10 +13,10 @@ import { useEffect, useRef, useState } from 'react';
 
 export default function Home() {
   const t = useTranslations('HomePage');
-
-  const [showIntro, setShowIntro] = useState(true);
+  const [showIntro, setShowIntro] = useState(false);
 
   gsap.registerPlugin(SplitText);
+
   const titleRef = useRef(null);
   const subtitleRef = useRef(null);
   const paragraphRef = useRef(null);
@@ -24,43 +24,51 @@ export default function Home() {
   const avatarRef = useRef(null);
   const splitTextInstance = useRef<any>(null);
 
+  // 🎬 animações do Hero (só disparam depois da intro)
   useEffect(() => {
+    if (showIntro) return; // evita animar antes da intro acabar
+
     const ctx = gsap.context(() => {
-      if (titleRef.current) {
-        gsap.set(titleRef.current, { overflow: 'hidden' });
+      if (!titleRef.current) return;
 
-        splitTextInstance.current = new SplitText(titleRef.current, {
-          type: 'chars',
-          charsClass: 'char-reveal inline-block overflow-hidden',
-        });
+      // split de caracteres
+      gsap.set(titleRef.current, { overflow: 'hidden' });
+      splitTextInstance.current = new SplitText(titleRef.current, {
+        type: 'chars',
+        charsClass: 'char-reveal inline-block overflow-hidden',
+      });
 
-        const chars = splitTextInstance.current.chars;
+      const chars = splitTextInstance.current.chars;
 
-        const tl = gsap.timeline({ delay: 0.3 });
+      const tl = gsap.timeline({ delay: 0.8 }); // pequeno delay pós-intro
 
-        // 1️⃣ Animação do título
-        tl.from(chars, {
-          yPercent: 120,
-          rotationX: -30,
-          transformOrigin: 'center center',
-          ease: 'circ.out',
-          stagger: 0.02,
-          duration: 0.6,
-        });
+      // 1️⃣ animação do título
+      tl.from(chars, {
+        yPercent: 120,
+        rotationX: -30,
+        transformOrigin: 'center center',
+        ease: 'circ.out',
+        stagger: 0.02,
+        duration: 0.6,
+      });
 
-        // 2️⃣ Todos os outros elementos entram quase juntos
-        tl.from(
-          [subtitleRef.current, paragraphRef.current, buttonWrapper.current, avatarRef.current],
-          {
-            opacity: 0,
-            y: 30,
-            duration: 0.8,
-            ease: 'power3.out',
-            stagger: 0.08, // pequena diferença pra dar vida
-          },
-          '+=0.1' // começa logo após o título
-        );
-      }
+      // 2️⃣ entrada dos outros elementos quase juntos
+      tl.from(
+        [
+          subtitleRef.current,
+          paragraphRef.current,
+          buttonWrapper.current,
+          avatarRef.current,
+        ],
+        {
+          opacity: 0,
+          y: 30,
+          duration: 0.8,
+          ease: 'power3.out',
+          stagger: 0.08,
+        },
+        '+=0.1'
+      );
     });
 
     return () => {
@@ -69,11 +77,16 @@ export default function Home() {
         splitTextInstance.current.revert();
       }
     };
-  }, []);
+  }, [showIntro]);
 
   return (
     <>
-      {showIntro && <AnimatedLogo onComplete={() => setShowIntro(false)} />}
+      {showIntro && (
+        <div className="fixed inset-0 flex items-center justify-center bg-black z-[9999]">
+          <AnimatedLogo onComplete={() => setShowIntro(false)} />
+        </div>
+      )}
+
       {!showIntro && (
         <section
           id="home"
@@ -91,7 +104,7 @@ export default function Home() {
               {t('subtitle')}
             </TypographyH1>
 
-            <TypographyLarge ref={paragraphRef} className="w-[80%] mb-5">
+            <TypographyLarge ref={paragraphRef} className="w-[70%] mb-5">
               {t('paragraph')}
             </TypographyLarge>
 
@@ -102,8 +115,9 @@ export default function Home() {
             </div>
           </div>
 
-          <Avatar ref={avatarRef} className="w-150 h-150">
+          <Avatar variant='portrait' size={2} ref={avatarRef} >
             <AvatarImage
+              bw='hover'
               src="ahttps://avatars.githubusercontent.com/u/145306272?s=400&u=366f479fd76b067a0a924c52fdb13cae699eca33&v=4"
               alt="Profile Picture"
             />
