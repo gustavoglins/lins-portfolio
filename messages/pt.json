@@ -2,6 +2,12 @@
   "HomePage": {
     "locale": "pt",
     "subtitle": "Desenvolvedor Full Stack",
-    "paragraph": "Olá, sou Gustavo Lins, 19 anos, desenvolvedor Full Stack focado em escrever código limpo e construir produtos úteis."
+    "paragraph": "Olá, sou Gustavo Lins, 19 anos, desenvolvedor Full Stack focado em escrever código limpo e construir produtos úteis.",
+    "header": {
+      "about": "Sobre",
+      "experience": "Experiência",
+      "projects": "Projetos",
+      "contact": "Contato"
+    }
   }
 }

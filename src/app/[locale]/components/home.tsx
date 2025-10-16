@@ -54,7 +54,7 @@ export default function Home() {
 
       const chars = splitTextInstance.current?.chars ?? [];
 
-      const tl = gsap.timeline({ delay: 0.8 }); // delay pós-intro
+      const tl = gsap.timeline({ delay: 0 }); // delay pós-intro
 
       // animação do título
       tl.from(chars, {
@@ -66,7 +66,7 @@ export default function Home() {
         duration: 0.6,
       });
 
-      // entrada dos outros elementos quase juntos (inclui comentários 'muted')
+      // entrada dos outros elementos
       tl.from(
         [
           subtitleRef.current,
@@ -82,9 +82,8 @@ export default function Home() {
           duration: 0.8,
           ease: 'power3.out',
           stagger: 0.08,
-        },
-        '+=0.1'
-      );
+        }
+      , '-=0.25');
 
       if (codeRef.current) {
         gsap.set(codeRef.current, { overflow: 'hidden' });
@@ -95,7 +94,7 @@ export default function Home() {
 
         const codeChars = splitCodeInstance.current?.chars ?? [];
 
-        // animate characters like a typing effect using staggered reveal
+        // typing effect code block
         tl.from(codeChars, {
           autoAlpha: 0,
           duration: 0.01,
@@ -104,15 +103,12 @@ export default function Home() {
         }, '+=0.2');
       }
 
-      // subtle header fade that runs after the main timeline
+      // header
       if (headerRef.current) {
-        // start hidden
-        gsap.set(headerRef.current, { autoAlpha: 0, y: -6 });
-        // place the header fade to run after previous timeline animations
+        gsap.set(headerRef.current, { autoAlpha: 0 });
         tl.to(headerRef.current, {
           autoAlpha: 1,
-          y: 0,
-          duration: 0.45,
+          duration: 0.8,
           ease: 'power1.out',
         }, '+=0.15');
       }
@@ -128,7 +124,7 @@ export default function Home() {
   return (
     <>
       {showIntro && (
-        <div className="fixed inset-0 flex items-center justify-center bg-black z-[9999]">
+        <div className="fixed inset-0 flex items-center justify-center bg-white z-[9999]">
           <AnimatedLogo onComplete={() => setShowIntro(false)} />
         </div>
       )}
@@ -147,28 +143,28 @@ export default function Home() {
                 <li>
                   <Link href="#about" className="group">
                     <span className="text-foreground group-hover:text-[#ff1744] transition-colors duration-300">{'['}</span>
-                    About
+                    {t('header.about')}
                     <span className="text-foreground group-hover:text-[#ff1744] transition-colors duration-300">{']'}</span>
                   </Link>
                 </li>
                 <li>
-                  <Link href="#about" className="group">
+                  <Link href="#experience" className="group">
                     <span className="text-foreground group-hover:text-[#ff1744] transition-colors duration-300">{'['}</span>
-                    Experience
+                    {t('header.experience')}
                     <span className="text-foreground group-hover:text-[#ff1744] transition-colors duration-300">{']'}</span>
                   </Link>
                 </li>
                 <li>
-                  <Link href="#about" className="group">
+                  <Link href="#projects" className="group">
                     <span className="text-foreground group-hover:text-[#ff1744] transition-colors duration-300">{'['}</span>
-                    Projects
+                    {t('header.projects')}
                     <span className="text-foreground group-hover:text-[#ff1744] transition-colors duration-300">{']'}</span>
                   </Link>
                 </li>
                 <li>
-                  <Link href="#about" className="group">
+                  <Link href="#contact" className="group">
                     <span className="text-foreground group-hover:text-[#ff1744] transition-colors duration-300">{'['}</span>
-                    Contact
+                    {t('header.contact')}
                     <span className="text-foreground group-hover:text-[#ff1744] transition-colors duration-300">{']'}</span>
                   </Link>
                 </li>
@@ -185,7 +181,7 @@ export default function Home() {
 
                 <TypographyH1
                   ref={subtitleRef}
-                  className="font-serif font-semibold italic text-8xl py-2 text-[#ff1744]"
+                  className="font-serif font-semibold italic text-8xl pb-2 text-[#ff1744]"
                 >
                   {t('subtitle')}
                 </TypographyH1>
@@ -216,7 +212,7 @@ export default function Home() {
                   </Link>
                 </div>
               </div>
-              <div className='flex flex-col gap-2 w-[320px] flex-shrink-0 items-center'>
+              <div className='flex flex-col gap-2 flex-shrink-0'>
                 <Avatar variant='portrait' size={1} ref={avatarRef} >
                   <AvatarImage
                     bw='hover'
@@ -230,9 +226,7 @@ export default function Home() {
             </div>
             <div ref={codeRef}>
               <CodeBlock fontSize={30}
-                code={`while (!success) {
-    tryAgain();
-}`}
+                code={`while (!success) { tryAgain(); }`}
                 language="java"
               />
             </div>

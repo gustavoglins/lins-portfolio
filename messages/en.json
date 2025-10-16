@@ -2,6 +2,12 @@
   "HomePage": {
     "locale": "en",
     "subtitle": "Full Stack Developer",
-    "paragraph": "Yo! I’m Gustavo Lins, 19yo, Full Stack Developer focused on writing clean code and building useful products."
+    "paragraph": "Yo! I’m Gustavo Lins, 19yo, Full Stack Developer focused on writing clean code and building useful products.",
+    "header": {
+      "about": "About",
+      "experience": "Experience",
+      "projects": "Projects",
+      "contact": "Contact"
+    }
   }
 }
