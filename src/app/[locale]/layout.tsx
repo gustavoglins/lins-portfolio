@@ -47,8 +47,7 @@ export default async function RootLayout({ children, params }: Props) {
     <html lang="en">
       <body className={`${poppins.variable} ${playfair.variable} antialiased`}>
         <WarningBanner />
-        {/* <div className="h-full w-full px-20 py-12.5"> */}
-        <div className="h-full w-full px-20 py-12.5">
+        <div className="h-full w-full">
           <NextIntlClientProvider>
             {/* <Header locale={locale} /> */}
             <Home />

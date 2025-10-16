@@ -1,3 +1,5 @@
+'use client';
+
 import TypographyH1 from '@/components/typography/TypographyH1';
 import { TypographyLarge } from '@/components/typography/TypographyLarge';
 import { Avatar, AvatarFallback, AvatarImage } from '@/components/ui/avatar';
@@ -5,10 +7,51 @@ import { Badge } from '@/components/ui/badge';
 import { Button } from '@/components/ui/button';
 import { Download } from 'lucide-react';
 import { useTranslations } from 'next-intl';
-import Link from 'next/link';
+import { gsap } from 'gsap';
+import { SplitText } from 'gsap/SplitText';
+import { useEffect, useRef } from 'react';
 
 export default function Home() {
   const t = useTranslations('HomePage');
+
+  gsap.registerPlugin(SplitText);
+  const titleRef = useRef(null);
+  const splitTextInstance = useRef(null);
+
+  useEffect(() => {
+    if (titleRef.current) {
+      gsap.set(titleRef.current, { overflow: 'hidden' });
+
+      // Divide o texto em spans
+      // @ts-expect-error SplitText não é tipado
+      splitTextInstance.current = new SplitText(titleRef.current, {
+        type: 'chars',
+        charsClass: 'char-reveal inline-block overflow-hidden',
+      });
+
+      // @ts-expect-error SplitText chars property
+      const chars = splitTextInstance.current.chars;
+
+      // Timeline mais cinematográfica
+      const tl = gsap.timeline({ delay: 0.3 });
+
+      tl.from(chars, {
+        yPercent: 120,
+        rotationX: -30,
+        transformOrigin: 'center center',
+        ease: 'circ.out',
+        stagger: 0.02,
+        duration: 0.6,
+      });
+
+      return () => {
+        if (splitTextInstance.current) {
+          // @ts-expect-error revert
+          splitTextInstance.current.revert();
+        }
+      };
+    }
+  }, []);
 
   return (
     <section
@@ -19,9 +62,12 @@ export default function Home() {
         <Badge variant="open-to-work" className="mb-6 text-sm font-medium">
           Open to Work
         </Badge>
-        <TypographyH1 className="text-8xl font-semibold">
+        {/* <TypographyH1 ref={titleRef} className="text-8xl font-semibold">
           Gustavo Lins,
-        </TypographyH1>
+        </TypographyH1> */}
+        <h1 className="text-8xl font-semibold" ref={titleRef}>
+          Gustavo Lins,
+        </h1>
         <TypographyH1 className="font-serif font-semibold italic text-8xl py-2 text-[#ff1744]">
           {t('subtitle')}
         </TypographyH1>
