@@ -25,11 +25,6 @@ const playfair = Playfair_Display({
 export const metadata: Metadata = {
   title: 'Gustavo Lins',
   description: 'Gustavo Lins - Personal Portfolio',
-  icons: {
-    icon: './favicon.icon',
-    shortcut: './favicon.icon',
-    apple: './favicon.icon',
-  },
 };
 
 type Props = {
