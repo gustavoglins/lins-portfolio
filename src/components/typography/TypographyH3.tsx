@@ -1,12 +1,20 @@
-interface TypographyH3Props {
-  children: React.ReactNode
-  className?: string
-}
+import { forwardRef } from 'react';
+import type { ComponentPropsWithoutRef } from 'react';
 
-export function TypographyH3({ children, className }: TypographyH3Props) {
-  return (
-    <h3 className={`scroll-m-20 text-2xl font-semibold tracking-tight ${className || ''}`}>
-      {children}
-    </h3>
-  )
-}
+type TypographyH3Props = ComponentPropsWithoutRef<'h3'>;
+
+export const TypographyH3 = forwardRef<HTMLHeadingElement, TypographyH3Props>(
+  ({ className, children, ...props }, ref) => {
+    return (
+      <h3
+        ref={ref}
+        className={`scroll-m-20 text-2xl font-semibold tracking-tight ${className || ''}`}
+        {...props}
+      >
+        {children}
+      </h3>
+    );
+  }
+);
+
+TypographyH3.displayName = 'TypographyH3';

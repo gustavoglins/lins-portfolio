@@ -1,18 +1,22 @@
-interface TypographyH1Props {
-  children: React.ReactNode;
-  className?: string;
-}
+import { forwardRef } from 'react';
+import type { ComponentPropsWithoutRef } from 'react';
 
-export default function TypographyH1({
-  children,
-  className,
-}: TypographyH1Props) {
-  return (
-    <h1
-      // className={`scroll-m-20 text-4xl font-semibold tracking-tight text-balance ${
-      className={`scroll-m-20 text-4xl ${className || ''}`}
-    >
-      {children}
-    </h1>
-  );
-}
+type TypographyH1Props = ComponentPropsWithoutRef<'h1'>;
+
+const TypographyH1 = forwardRef<HTMLHeadingElement, TypographyH1Props>(
+  ({ className, children, ...props }, ref) => {
+    return (
+      <h1
+        ref={ref}
+        className={`scroll-m-20 text-4xl ${className || ''}`}
+        {...props}
+      >
+        {children}
+      </h1>
+    );
+  }
+);
+
+TypographyH1.displayName = 'TypographyH1';
+
+export default TypographyH1;

@@ -1,16 +1,20 @@
-interface TypographyPProps {
-  children: React.ReactNode;
-  className?: string;
-}
+import { forwardRef } from 'react';
+import type { ComponentPropsWithoutRef } from 'react';
 
-export function TypographyP({ children, className }: TypographyPProps) {
-  return (
-    <p
-      className={`text-xl leading-7 [&:not(:first-child)]:mt-5 ${
-        className || ''
-      }`}
-    >
-      {children}
-    </p>
-  );
-}
+type TypographyPProps = ComponentPropsWithoutRef<'p'>;
+
+export const TypographyP = forwardRef<HTMLParagraphElement, TypographyPProps>(
+  ({ className, children, ...props }, ref) => {
+    return (
+      <p
+        ref={ref}
+        className={`text-xl leading-7 [&:not(:first-child)]:mt-5 ${className || ''}`}
+        {...props}
+      >
+        {children}
+      </p>
+    );
+  }
+);
+
+TypographyP.displayName = 'TypographyP';

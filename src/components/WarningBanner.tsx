@@ -1,11 +1,33 @@
 'use client';
 
 import { X } from 'lucide-react';
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
+
+const STORAGE_KEY = 'warning-banner-closed';
 
 export default function WarningBanner() {
-  const [hidden, setHidden] = useState<boolean>(false);
+  const [hidden, setHidden] = useState<boolean>(true);
+
+  useEffect(() => {
+    // only run on client
+    if (typeof window === 'undefined') return;
+
+    try {
+      const stored = window.localStorage.getItem(STORAGE_KEY);
+      // if key is present and set to 'true', keep hidden
+      setHidden(stored === 'true');
+    } catch (e) {
+      // ignore localStorage errors (e.g., privacy mode)
+      setHidden(false);
+    }
+  }, []);
+
   function handleHide() {
+    try {
+      window.localStorage.setItem(STORAGE_KEY, 'true');
+    } catch (e) {
+      // ignore write errors
+    }
     setHidden(true);
   }
 
