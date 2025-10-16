@@ -55,11 +55,11 @@ export default function AnimatedLogo({ onComplete }: { onComplete?: () => void }
     tl.to(
       svg,
       {
-        scale: 1.03,
-        filter: 'drop-shadow(0 0 20px rgba(255,255,255,0.3))',
+        scale: 1.02,
+        filter: 'drop-shadow(0 0 20px rgba(255,255,255,0.2))',
         duration: 0.8,
-        yoyo: true,
-        repeat: 1,
+        // yoyo: true,
+        // repeat: 1,
         transformOrigin: 'center',
       },
       '>-0.3'
