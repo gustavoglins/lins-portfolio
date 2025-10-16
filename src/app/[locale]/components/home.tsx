@@ -16,7 +16,7 @@ import { useEffect, useRef, useState } from 'react';
 
 export default function Home() {
   const t = useTranslations('HomePage');
-  const [showIntro, setShowIntro] = useState(true);
+  const [showIntro, setShowIntro] = useState(false);
 
   gsap.registerPlugin(SplitText);
 
@@ -100,7 +100,7 @@ export default function Home() {
           duration: 0.01,
           ease: 'none',
           stagger: 0.03,
-        }, '+=0.2');
+        }, '-=0.9');
       }
 
       // header
@@ -108,9 +108,9 @@ export default function Home() {
         gsap.set(headerRef.current, { autoAlpha: 0 });
         tl.to(headerRef.current, {
           autoAlpha: 1,
-          duration: 0.8,
+          duration: 1,
           ease: 'power1.out',
-        }, '+=0.15');
+        }, '-=0.3');
       }
     });
 
