@@ -16,7 +16,7 @@ import { useEffect, useRef, useState } from 'react';
 
 export default function Home() {
   const t = useTranslations('HomePage');
-  const [showIntro, setShowIntro] = useState(false);
+  const [showIntro, setShowIntro] = useState(true);
 
   gsap.registerPlugin(SplitText);
 
