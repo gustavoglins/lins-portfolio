@@ -18,7 +18,7 @@ export default function CodeBlock({ code, language = 'java', fontSize, className
   // highlight only the exact tokens 'tryAgain' and 'while' in the specified red color
   const exactHighlightRegex = /\b(tryAgain|while)\b/g;
 
-  let highlighted = esc(code).replace(
+  const highlighted = esc(code).replace(
     exactHighlightRegex,
     '<span class="text-[#ff1744]">$1</span>'
   );

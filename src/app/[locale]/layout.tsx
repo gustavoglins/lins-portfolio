@@ -1,14 +1,13 @@
 import Aside from '@/components/aside';
-import Header from '@/components/header';
+import WarningBanner from '@/components/WarningBanner';
 import { routing } from '@/i18n/routing';
 import type { Metadata } from 'next';
 import { hasLocale, NextIntlClientProvider } from 'next-intl';
 import { Playfair_Display, Poppins } from 'next/font/google';
 import { notFound } from 'next/navigation';
-import './globals.css';
-import WarningBanner from '@/components/WarningBanner';
-import Home from './components/home';
 import About from './components/about';
+import Home from './components/home';
+import './globals.css';
 
 const poppins = Poppins({
   variable: '--font-poppins',
@@ -28,11 +27,10 @@ export const metadata: Metadata = {
 };
 
 type Props = {
-  children: React.ReactNode;
   params: Promise<{ locale: string }>;
 };
 
-export default async function RootLayout({ children, params }: Props) {
+export default async function RootLayout({ params }: Props) {
   const { locale } = await params;
   if (!hasLocale(routing.locales, locale)) {
     notFound();

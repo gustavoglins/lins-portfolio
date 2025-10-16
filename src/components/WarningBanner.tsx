@@ -18,6 +18,7 @@ export default function WarningBanner() {
       setHidden(stored === 'true');
     } catch (e) {
       // ignore localStorage errors (e.g., privacy mode)
+      console.error(e);
       setHidden(false);
     }
   }, []);
@@ -27,6 +28,7 @@ export default function WarningBanner() {
       window.localStorage.setItem(STORAGE_KEY, 'true');
     } catch (e) {
       // ignore write errors
+      console.error(e);
     }
     setHidden(true);
   }
