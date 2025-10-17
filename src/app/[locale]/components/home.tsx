@@ -225,24 +225,27 @@ export default function Home() {
               </ul>
             </nav>
           </header>
-          <div className="w-full h-full flex flex-col items-center justify-between pt-40 pb-5">
+          <div className="w-full h-full flex flex-col items-center justify-between pt-45 pb-10">
             <div className="w-full flex items-start justify-between gap-8 px-0">
               <div className="flex-1">
                 <TypographyMuted ref={commentTopRef}>
                   <span className="text-[#ff1744]">{'//'}</span> Open to Work!
                 </TypographyMuted>
-                <TypographyH1 ref={titleRef} className="font-semibold">
+                <TypographyH1
+                  ref={titleRef}
+                  className="font-semibold leading-none"
+                >
                   Gustavo Lins,
                 </TypographyH1>
 
                 <TypographyH1
                   ref={subtitleRef}
-                  className="font-serif font-semibold italic pb-2 text-[#ff1744]"
+                  className="font-serif font-semibold italic pb-2 text-[#ff1744] leading-none"
                 >
                   {t('subtitle')}
                 </TypographyH1>
 
-                <TypographyLarge ref={paragraphRef} className="w-[100%] mb-5">
+                <TypographyLarge ref={paragraphRef} className="w-[70%] mb-5">
                   {t('paragraph')}
                 </TypographyLarge>
 

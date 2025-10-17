@@ -6,14 +6,15 @@ export default function About() {
   return (
     <section
       id="about"
-      className="min-h-screen w-full bg-foreground px-20 pt-32"
+      // className="min-h-screen w-full bg-foreground px-20 pt-32"
+      className="min-h-screen w-full bg-foreground"
     >
       <SectionTitle>About</SectionTitle>
       <div className="flex items-baseline gap-5">
-        <TypographyH1 className="text-8xl font-semibold text-background leading-none">
+        <TypographyH1 className="font-semibold text-background leading-none">
           More about
         </TypographyH1>
-        <TypographyH1 className="font-serif font-semibold italic text-8xl text-[#ff1744] -translate-y-[-0.0em]">
+        <TypographyH1 className="font-serif font-semibold italic text-[#ff1744]">
           {'<me/>'}
         </TypographyH1>
       </div>
