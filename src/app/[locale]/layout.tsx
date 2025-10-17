@@ -1,12 +1,14 @@
 import Aside from '@/components/aside';
 import WarningBanner from '@/components/WarningBanner';
+import SmoothScroll from '@/components/smooth-scroll';
+import MainContent from '@/components/main-content';
+import Header from '@/components/header';
 import { routing } from '@/i18n/routing';
 import type { Metadata } from 'next';
 import { hasLocale, NextIntlClientProvider } from 'next-intl';
+import { getMessages } from 'next-intl/server';
 import { Playfair_Display, Poppins } from 'next/font/google';
 import { notFound } from 'next/navigation';
-import About from './components/about';
-import Home from './components/home';
 import './globals.css';
 
 const poppins = Poppins({
@@ -32,22 +34,31 @@ type Props = {
 
 export default async function RootLayout({ params }: Props) {
   const { locale } = await params;
+
   if (!hasLocale(routing.locales, locale)) {
     notFound();
   }
 
+  // Carrega as mensagens de tradução
+  const messages = await getMessages();
+
   return (
-    <html lang="en">
+    <html lang={locale}>
       <body className={`${poppins.variable} ${playfair.variable} antialiased`}>
-        <WarningBanner />
-        <div className="h-full w-full">
-          <NextIntlClientProvider>
-            {/* <Header locale={locale} /> */}
-            <Home />
-            <About />
-            <Aside />
-          </NextIntlClientProvider>
-        </div>
+        <NextIntlClientProvider messages={messages}>
+          <WarningBanner />
+
+          {/* Header fixo - aparece quando sair da seção Home */}
+          <Header locale={locale} />
+
+          {/* SmoothScroll wrapper */}
+          <SmoothScroll>
+            <MainContent locale={locale} />
+          </SmoothScroll>
+
+          {/* Aside fica fora do smooth scroll para manter fixed */}
+          <Aside />
+        </NextIntlClientProvider>
       </body>
     </html>
   );

@@ -132,8 +132,15 @@ section {
   * {
     @apply border-border outline-ring/50;
   }
-  body {
+
+  html, body {
     @apply bg-background text-foreground;
+    width: 100%;
+    overflow-x: hidden;
+  }
+
+  body {
+    min-height: 100vh;
   }
 }
 
@@ -154,4 +161,14 @@ body {
 
 body::-webkit-scrollbar {
   display: none; /* WebKit */
+}
+
+/* ScrollSmoother styles */
+#smooth-wrapper {
+  overflow: hidden;
+}
+
+#smooth-content {
+  overflow: visible;
+  width: 100%;
 }

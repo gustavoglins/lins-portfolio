@@ -1,38 +1,43 @@
 'use client';
 
 import { useEffect, useRef, useState } from 'react';
+import { gsap } from 'gsap';
+import { ScrollTrigger } from 'gsap/ScrollTrigger';
+import { ScrollToPlugin } from 'gsap/ScrollToPlugin';
 
 export default function Aside() {
   const [progress, setProgress] = useState(0); // 0..1
   const trackRef = useRef<HTMLDivElement | null>(null);
 
   useEffect(() => {
-    let ticking = false;
+    gsap.registerPlugin(ScrollTrigger, ScrollToPlugin);
 
-    const update = () => {
-      const doc = document.documentElement;
-      const scrollTop = window.scrollY || doc.scrollTop || 0;
-      const maxScroll = Math.max(0, doc.scrollHeight - window.innerHeight);
-      const pct = maxScroll > 0 ? scrollTop / maxScroll : 0;
+    // Atualiza o progresso baseado no scroll
+    const updateProgress = () => {
+      const scrollY = window.scrollY || window.pageYOffset;
+      const docHeight = document.documentElement.scrollHeight;
+      const windowHeight = window.innerHeight;
+      const maxScroll = Math.max(0, docHeight - windowHeight);
+      const pct = maxScroll > 0 ? scrollY / maxScroll : 0;
       setProgress(Math.min(1, Math.max(0, pct)));
-      ticking = false;
     };
 
-    const onScroll = () => {
-      if (!ticking) {
-        window.requestAnimationFrame(update);
-        ticking = true;
-      }
-    };
+    // Usa ScrollTrigger para sincronizar com ScrollSmoother
+    ScrollTrigger.create({
+      trigger: 'body',
+      start: 'top top',
+      end: 'bottom bottom',
+      onUpdate: updateProgress,
+    });
 
-    window.addEventListener('scroll', onScroll, { passive: true });
-    window.addEventListener('resize', onScroll);
-    // initial
-    onScroll();
+    // Initial update
+    updateProgress();
+
+    window.addEventListener('resize', updateProgress);
 
     return () => {
-      window.removeEventListener('scroll', onScroll);
-      window.removeEventListener('resize', onScroll);
+      window.removeEventListener('resize', updateProgress);
+      ScrollTrigger.getAll().forEach((st) => st.kill());
     };
   }, []);
 
@@ -41,10 +46,17 @@ export default function Aside() {
     const rect = trackRef.current.getBoundingClientRect();
     const clickY = e.clientY - rect.top;
     const ratio = Math.max(0, Math.min(1, clickY / rect.height));
-    const doc = document.documentElement;
-    const maxScroll = Math.max(0, doc.scrollHeight - window.innerHeight);
+    const docHeight = document.documentElement.scrollHeight;
+    const windowHeight = window.innerHeight;
+    const maxScroll = Math.max(0, docHeight - windowHeight);
     const target = ratio * maxScroll;
-    window.scrollTo({ top: target, behavior: 'smooth' });
+
+    // Usa gsap para scroll suave compatível com ScrollSmoother
+    gsap.to(window, {
+      scrollTo: { y: target, autoKill: true },
+      duration: 1,
+      ease: 'power2.inOut',
+    });
   };
 
   return (
