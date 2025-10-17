@@ -73,7 +73,6 @@ export default function Home() {
           subtitleRef.current,
           paragraphRef.current,
           buttonWrapper.current,
-          avatarRef.current,
           commentTopRef.current,
           commentBottomRef.current,
         ],
@@ -87,6 +86,29 @@ export default function Home() {
         '-=0.25'
       );
 
+      // avatar e codeblock sincronizados (começam e terminam juntos)
+      const syncStartTime = '-=0.4'; // momento de início sincronizado
+      const syncDuration = 1.0; // duração sincronizada
+
+      // Avatar - revelação de cima para baixo
+      if (avatarRef.current) {
+        gsap.set(avatarRef.current, {
+          clipPath: 'inset(100% 0 0 0)', // começa completamente cortado de cima
+          opacity: 1,
+        });
+
+        tl.to(
+          avatarRef.current,
+          {
+            clipPath: 'inset(0% 0 0 0)', // revela completamente
+            duration: syncDuration,
+            ease: 'power2.out',
+          },
+          syncStartTime
+        );
+      }
+
+      // Code block
       if (codeRef.current) {
         gsap.set(codeRef.current, { overflow: 'hidden' });
         splitCodeInstance.current = new SplitText(codeRef.current, {
@@ -96,30 +118,30 @@ export default function Home() {
 
         const codeChars = splitCodeInstance.current?.chars ?? [];
 
-        // typing effect code block
+        // typing effect code block sincronizado
         tl.from(
           codeChars,
           {
             autoAlpha: 0,
             duration: 0.01,
             ease: 'none',
-            stagger: 0.03,
+            stagger: 0.02, // stagger ajustado para terminar junto com os outros
           },
-          '-=0.9'
+          '-=0.8'
         );
       }
 
-      // header
+      // Header por último (depois de todos os outros componentes)
       if (headerRef.current) {
         gsap.set(headerRef.current, { autoAlpha: 0 });
         tl.to(
           headerRef.current,
           {
             autoAlpha: 1,
-            duration: 1,
-            ease: 'power1.out',
+            duration: 0.8,
+            ease: 'power2.out',
           },
-          '-=0.3'
+          '-=0.2' // aparece por último
         );
       }
     });
