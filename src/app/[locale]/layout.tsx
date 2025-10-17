@@ -51,10 +51,8 @@ export default async function RootLayout({ params }: Props) {
           {/* Header fixo - aparece quando sair da seção Home */}
           <Header locale={locale} />
 
-          {/* SmoothScroll wrapper */}
-          <SmoothScroll>
-            <MainContent locale={locale} />
-          </SmoothScroll>
+          {/* MainContent com SmoothScroll */}
+          <MainContent locale={locale} />
 
           {/* Aside fica fora do smooth scroll para manter fixed */}
           <Aside />

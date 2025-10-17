@@ -65,17 +65,16 @@ export default function Header({ locale }: { locale: string }) {
       if (smoother) {
         clearInterval(checkSmoother);
 
-        // Detectar quando a seção Home sai completamente da tela
-        const homeSection = document.getElementById('home');
-        if (!homeSection) return;
+        let isHeaderVisible = false;
+        const threshold = window.innerHeight * 0.6; // 60% da altura da viewport
 
-        trigger = ScrollTrigger.create({
-          trigger: homeSection,
-          start: 'bottom top', // quando o bottom da home chegar no top da viewport
-          end: 'bottom top',
-          scroller: '#smooth-wrapper', // Especifica o scroller do ScrollSmoother
-          onEnter: () => {
+        // Função para verificar e atualizar o header baseado no scroll
+        const updateHeader = () => {
+          const scrollY = smoother.scrollTop();
+
+          if (scrollY > threshold && !isHeaderVisible) {
             // Mostrar o header
+            isHeaderVisible = true;
             gsap.to(headerRef.current, {
               opacity: 1,
               duration: 0.3,
@@ -92,8 +91,10 @@ export default function Header({ locale }: { locale: string }) {
                 from: 'start',
               },
             });
-          },
-          onLeaveBack: () => {
+          } else if (scrollY <= threshold && isHeaderVisible) {
+            // Esconder o header
+            isHeaderVisible = false;
+
             // Animar saída dos elementos em onda (subindo)
             gsap.to(animatableElements, {
               y: -100,
@@ -111,8 +112,18 @@ export default function Header({ locale }: { locale: string }) {
                 });
               },
             });
-          },
+          }
+        };
+
+        // Usar ScrollTrigger para monitorar o scroll
+        trigger = ScrollTrigger.create({
+          start: 0,
+          end: 'max',
+          onUpdate: updateHeader,
         });
+
+        // Update inicial
+        updateHeader();
       }
     }, 100);
 
