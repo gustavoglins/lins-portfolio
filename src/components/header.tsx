@@ -139,7 +139,7 @@ export default function Header({ locale }: { locale: string }) {
   return (
     <header
       ref={headerRef}
-      className="fixed top-0 left-0 w-full z-50 px-20 py-5"
+      className="fixed top-0 left-0 w-full z-50 px-15 py-12.5"
     >
       <div className="flex items-center justify-between">
         <div ref={logoRef}>

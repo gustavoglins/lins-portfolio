@@ -292,7 +292,7 @@ export default function Home() {
                 <Avatar variant="portrait" size={1} ref={avatarRef}>
                   <AvatarImage
                     bw="hover"
-                    src="ahttps://avatars.githubusercontent.com/u/145306272?s=400&u=366f479fd76b067a0a924c52fdb13cae699eca33&v=4"
+                    src="https://avatars.githubusercontent.com/u/145306272?s=400&u=366f479fd76b067a0a924c52fdb13cae699eca33&v=4"
                     alt="Profile Picture"
                   />
                   <AvatarFallback className="text-9xl font-semibold">
