@@ -14,6 +14,9 @@ import { useTranslations } from 'next-intl';
 import Link from 'next/link';
 import CodeBlock from '@/components/CodeBlock';
 import { useEffect, useRef, useState } from 'react';
+import { TypographyH4 } from '@/components/typography/TypographyH4';
+import { TypographyH3 } from '@/components/typography/TypographyH3';
+import { TypographyH2 } from '@/components/typography/TypographyH2';
 
 export default function Home() {
   const t = useTranslations('HomePage');
@@ -170,9 +173,9 @@ export default function Home() {
             ref={headerRef}
             className="absolute top-0 py-12.5 left-0 px-15 w-full flex items-center justify-between"
           >
-            <TypographyH1 className="uppercase font-semibold tracking-wide">
+            <TypographyH2 className="uppercase font-semibold tracking-wide">
               Gustavo
-            </TypographyH1>
+            </TypographyH2>
             <nav>
               <ul className="flex gap-8">
                 <li>
@@ -222,24 +225,24 @@ export default function Home() {
               </ul>
             </nav>
           </header>
-          <div className="w-full h-full flex flex-col items-center justify-between pt-50 pb-5">
+          <div className="w-full h-full flex flex-col items-center justify-between pt-40 pb-5">
             <div className="w-full flex items-start justify-between gap-8 px-0">
               <div className="flex-1">
                 <TypographyMuted ref={commentTopRef}>
                   <span className="text-[#ff1744]">{'//'}</span> Open to Work!
                 </TypographyMuted>
-                <TypographyH1 ref={titleRef} className="text-8xl font-semibold">
+                <TypographyH1 ref={titleRef} className="font-semibold">
                   Gustavo Lins,
                 </TypographyH1>
 
                 <TypographyH1
                   ref={subtitleRef}
-                  className="font-serif font-semibold italic text-8xl pb-2 text-[#ff1744]"
+                  className="font-serif font-semibold italic pb-2 text-[#ff1744]"
                 >
                   {t('subtitle')}
                 </TypographyH1>
 
-                <TypographyLarge ref={paragraphRef} className="w-[70%] mb-5">
+                <TypographyLarge ref={paragraphRef} className="w-[100%] mb-5">
                   {t('paragraph')}
                 </TypographyLarge>
 
@@ -286,7 +289,7 @@ export default function Home() {
                 <Avatar variant="portrait" size={1} ref={avatarRef}>
                   <AvatarImage
                     bw="hover"
-                    src="https://avatars.githubusercontent.com/u/145306272?s=400&u=366f479fd76b067a0a924c52fdb13cae699eca33&v=4"
+                    src="ahttps://avatars.githubusercontent.com/u/145306272?s=400&u=366f479fd76b067a0a924c52fdb13cae699eca33&v=4"
                     alt="Profile Picture"
                   />
                   <AvatarFallback className="text-9xl font-semibold">
@@ -300,7 +303,7 @@ export default function Home() {
             </div>
             <div ref={codeRef}>
               <CodeBlock
-                fontSize={30}
+                fontSize={28}
                 code={`while (!success) { tryAgain(); }`}
                 language="java"
               />

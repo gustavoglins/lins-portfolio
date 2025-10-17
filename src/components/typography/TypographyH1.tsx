@@ -8,7 +8,7 @@ const TypographyH1 = forwardRef<HTMLHeadingElement, TypographyH1Props>(
     return (
       <h1
         ref={ref}
-        className={`scroll-m-20 text-4xl ${className || ''}`}
+        className={`scroll-m-20 text-4xl text-[110px] ${className || ''}`}
         {...props}
       >
         {children}
