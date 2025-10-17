@@ -8,6 +8,11 @@
       "experience": "Experiência",
       "projects": "Projetos",
       "contact": "Contato"
+    },
+    "drawer": {
+      "title": "Baixar curriculo",
+      "description": "Escolha seu idioma preferido e baixe meu resumo clicando no botão abaixo.",
+      "label": "Selecionar Idioma"
     }
   }
 }

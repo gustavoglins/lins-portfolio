@@ -8,6 +8,11 @@
       "experience": "Experience",
       "projects": "Projects",
       "contact": "Contact"
+    },
+    "drawer": {
+      "title": "Download resume",
+      "description": "Choose your preferred language and download my resume by clicking the button below.",
+      "label": "Select Language"
     }
   }
 }

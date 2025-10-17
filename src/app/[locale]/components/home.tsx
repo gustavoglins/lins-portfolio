@@ -1,28 +1,109 @@
 'use client';
 
 import AnimatedLogo from '@/components/animated-logo';
+import CodeBlock from '@/components/CodeBlock';
 import TypographyH1 from '@/components/typography/TypographyH1';
+import { TypographyH2 } from '@/components/typography/TypographyH2';
 import { TypographyLarge } from '@/components/typography/TypographyLarge';
 import { TypographyMuted } from '@/components/typography/TypographyMuted';
 import { Avatar, AvatarFallback, AvatarImage } from '@/components/ui/avatar';
 import { Button } from '@/components/ui/button';
+import {
+  Drawer,
+  DrawerClose,
+  DrawerContent,
+  DrawerDescription,
+  DrawerFooter,
+  DrawerHeader,
+  DrawerTitle,
+  DrawerTrigger,
+} from '@/components/ui/drawer';
 import { gsap } from 'gsap';
-import { SplitText } from 'gsap/SplitText';
 import { ScrollTrigger } from 'gsap/ScrollTrigger';
+import { SplitText } from 'gsap/SplitText';
 import { Download } from 'lucide-react';
 import { useTranslations } from 'next-intl';
+import Image from 'next/image';
 import Link from 'next/link';
-import CodeBlock from '@/components/CodeBlock';
 import { useEffect, useRef, useState } from 'react';
-import { TypographyH4 } from '@/components/typography/TypographyH4';
-import { TypographyH3 } from '@/components/typography/TypographyH3';
-import { TypographyH2 } from '@/components/typography/TypographyH2';
 
 export default function Home() {
   const t = useTranslations('HomePage');
-  const [showIntro, setShowIntro] = useState(true);
+  const [showIntro, setShowIntro] = useState(false);
+  const [cvLanguage, setCvLanguage] = useState<'pt' | 'en'>('pt');
+
+  // Refs para os elementos de underline
+  const underlineRefs = useRef<(HTMLSpanElement | null)[]>([]);
 
   gsap.registerPlugin(SplitText, ScrollTrigger);
+
+  // Função para animar o underline baseado na posição do cursor
+  const handleMouseEnter = (
+    e: React.MouseEvent<HTMLAnchorElement>,
+    index: number
+  ) => {
+    const underline = underlineRefs.current[index];
+    if (!underline) return;
+
+    const link = e.currentTarget;
+    const rect = link.getBoundingClientRect();
+    const mouseX = e.clientX - rect.left;
+    const linkWidth = rect.width;
+
+    // Calcula a posição relativa do mouse (0 a 1)
+    const relativePosition = mouseX / linkWidth;
+
+    // Define a largura inicial baseada na distância do centro
+    const distanceFromCenter = Math.abs(relativePosition - 0.5);
+    const initialWidth = Math.max(0.1, 1 - distanceFromCenter * 2); // Mínimo 10% da largura
+
+    // Calcula a posição inicial para centralizar o underline
+    const startPosition = relativePosition - initialWidth / 2;
+
+    // Reset do underline
+    gsap.set(underline, {
+      width: `${initialWidth * 100}%`,
+      left: `${Math.max(
+        0,
+        Math.min(startPosition * 100, 100 - initialWidth * 100)
+      )}%`,
+      opacity: 1,
+    });
+
+    // Animação para crescer até o tamanho completo
+    gsap.to(underline, {
+      width: '100%',
+      left: '0%',
+      duration: 0.5,
+      ease: 'power2.out',
+    });
+  };
+
+  const handleMouseLeave = (index: number) => {
+    const underline = underlineRefs.current[index];
+    if (!underline) return;
+
+    gsap.to(underline, {
+      opacity: 0,
+      duration: 0.2,
+      ease: 'power2.out',
+    });
+  };
+
+  // Função para baixar o CV baseado no idioma selecionado
+  const handleDownloadCV = () => {
+    const fileName =
+      cvLanguage === 'pt' ? 'gustavoglins-cv.pdf' : 'gustavoglins-cv-en.pdf';
+    const filePath = `/cv/${fileName}`;
+
+    // Cria um link temporário para download
+    const link = document.createElement('a');
+    link.href = filePath;
+    link.download = fileName;
+    document.body.appendChild(link);
+    link.click();
+    document.body.removeChild(link);
+  };
 
   const titleRef = useRef(null);
   const subtitleRef = useRef(null);
@@ -121,14 +202,16 @@ export default function Home() {
 
         const codeChars = splitCodeInstance.current?.chars ?? [];
 
-        // typing effect code block sincronizado
+        // typing effect code block com efeito de onda
         tl.from(
           codeChars,
           {
-            autoAlpha: 0,
-            duration: 0.01,
-            ease: 'none',
-            stagger: 0.02, // stagger ajustado para terminar junto com os outros
+            yPercent: 120,
+            rotationX: -30,
+            transformOrigin: 'center center',
+            ease: 'circ.out',
+            stagger: 0.02,
+            duration: 0.6,
           },
           '-=0.8'
         );
@@ -144,7 +227,7 @@ export default function Home() {
             duration: 0.8,
             ease: 'power2.out',
           },
-          '-=0.2' // aparece por último
+          '-=0.5' // aparece por último
         );
       }
     });
@@ -159,7 +242,7 @@ export default function Home() {
   return (
     <>
       {showIntro && (
-        <div className="fixed inset-0 flex items-center justify-center bg-white z-[9999]">
+        <div className="fixed inset-0 flex items-center justify-center bg-white z-[50]">
           <AnimatedLogo onComplete={() => setShowIntro(false)} />
         </div>
       )}
@@ -167,11 +250,11 @@ export default function Home() {
       {!showIntro && (
         <section
           id="home"
-          className="h-screen w-full flex items-center justify-between overflow-hidden"
+          className="h-screen w-full flex items-center justify-between overflow-hidden relative z-0"
         >
           <header
             ref={headerRef}
-            className="absolute top-0 py-12.5 left-0 px-15 w-full flex items-center justify-between"
+            className="absolute top-0 py-12.5 left-0 px-15 w-full flex items-center justify-between z-1"
           >
             <TypographyH2 className="uppercase font-semibold tracking-wide">
               Gustavo
@@ -179,53 +262,77 @@ export default function Home() {
             <nav>
               <ul className="flex gap-8">
                 <li>
-                  <Link href="#about" className="group">
-                    <span className="text-foreground group-hover:text-[#ff1744] transition-colors duration-300">
-                      {'['}
-                    </span>
-                    {t('header.about')}
-                    <span className="text-foreground group-hover:text-[#ff1744] transition-colors duration-300">
-                      {']'}
-                    </span>
+                  <Link
+                    href="#about"
+                    className="relative inline-block cursor-pointer"
+                    onMouseEnter={(e) => handleMouseEnter(e, 0)}
+                    onMouseLeave={() => handleMouseLeave(0)}
+                  >
+                    <span className="relative z-10">{t('header.about')}</span>
+                    <span
+                      ref={(el) => {
+                        underlineRefs.current[0] = el;
+                      }}
+                      className="absolute bottom-0 h-0.5 bg-[#ff1744] opacity-0"
+                    ></span>
                   </Link>
                 </li>
                 <li>
-                  <Link href="#experience" className="group">
-                    <span className="text-foreground group-hover:text-[#ff1744] transition-colors duration-300">
-                      {'['}
+                  <Link
+                    href="#experience"
+                    className="relative inline-block cursor-pointer"
+                    onMouseEnter={(e) => handleMouseEnter(e, 1)}
+                    onMouseLeave={() => handleMouseLeave(1)}
+                  >
+                    <span className="relative z-10">
+                      {t('header.experience')}
                     </span>
-                    {t('header.experience')}
-                    <span className="text-foreground group-hover:text-[#ff1744] transition-colors duration-300">
-                      {']'}
-                    </span>
+                    <span
+                      ref={(el) => {
+                        underlineRefs.current[1] = el;
+                      }}
+                      className="absolute bottom-0 h-0.5 bg-[#ff1744] opacity-0"
+                    ></span>
                   </Link>
                 </li>
                 <li>
-                  <Link href="#projects" className="group">
-                    <span className="text-foreground group-hover:text-[#ff1744] transition-colors duration-300">
-                      {'['}
+                  <Link
+                    href="#projects"
+                    className="relative inline-block cursor-pointer"
+                    onMouseEnter={(e) => handleMouseEnter(e, 2)}
+                    onMouseLeave={() => handleMouseLeave(2)}
+                  >
+                    <span className="relative z-10">
+                      {t('header.projects')}
                     </span>
-                    {t('header.projects')}
-                    <span className="text-foreground group-hover:text-[#ff1744] transition-colors duration-300">
-                      {']'}
-                    </span>
+                    <span
+                      ref={(el) => {
+                        underlineRefs.current[2] = el;
+                      }}
+                      className="absolute bottom-0 h-0.5 bg-[#ff1744] opacity-0"
+                    ></span>
                   </Link>
                 </li>
                 <li>
-                  <Link href="#contact" className="group">
-                    <span className="text-foreground group-hover:text-[#ff1744] transition-colors duration-300">
-                      {'['}
-                    </span>
-                    {t('header.contact')}
-                    <span className="text-foreground group-hover:text-[#ff1744] transition-colors duration-300">
-                      {']'}
-                    </span>
+                  <Link
+                    href="#contact"
+                    className="relative inline-block cursor-pointer"
+                    onMouseEnter={(e) => handleMouseEnter(e, 3)}
+                    onMouseLeave={() => handleMouseLeave(3)}
+                  >
+                    <span className="relative z-10">{t('header.contact')}</span>
+                    <span
+                      ref={(el) => {
+                        underlineRefs.current[3] = el;
+                      }}
+                      className="absolute bottom-0 h-0.5 bg-[#ff1744] opacity-0"
+                    ></span>
                   </Link>
                 </li>
               </ul>
             </nav>
           </header>
-          <div className="w-full h-full flex flex-col items-center justify-between pt-45 pb-10">
+          <div className="w-full h-full flex flex-col items-center justify-center">
             <div className="w-full flex items-start justify-between gap-8 px-0">
               <div className="flex-1">
                 <TypographyMuted ref={commentTopRef}>
@@ -250,11 +357,81 @@ export default function Home() {
                 </TypographyLarge>
 
                 <div className="flex gap-5" ref={buttonWrapper}>
-                  <Button variant="secondary" size="lg">
-                    Download CV <Download />
-                  </Button>
+                  <Drawer>
+                    <DrawerTrigger asChild>
+                      <Button variant="reverse" size="lg">
+                        Download CV <Download />
+                      </Button>
+                    </DrawerTrigger>
+                    <DrawerContent>
+                      <div className="mx-auto w-full max-w-sm">
+                        <DrawerHeader>
+                          <DrawerTitle>{t('drawer.title')}</DrawerTitle>
+                          <DrawerDescription>
+                            {t('drawer.description')}
+                          </DrawerDescription>
+                        </DrawerHeader>
+                        <DrawerFooter>
+                          <div className="mb-4">
+                            <div className="flex flex-col gap-4 py-4">
+                              <p className="text-sm text-foreground">
+                                {t('drawer.label')}
+                              </p>
+                              <div className="flex w-full gap-1 bg-gray-50 p-1 rounded-lg">
+                                <button
+                                  onClick={() => setCvLanguage('pt')}
+                                  className={`flex-1 flex items-center justify-center gap-2 px-4 py-3 rounded-md transition-all duration-200 cursor-pointer ${
+                                    cvLanguage === 'pt'
+                                      ? 'bg-white text-gray-900 shadow-md border border-gray-200'
+                                      : 'text-gray-500 hover:text-gray-700'
+                                  }`}
+                                >
+                                  <Image
+                                    src="/images/brazil-flag.svg"
+                                    alt="Brazil Flag"
+                                    width={20}
+                                    height={15}
+                                  />
+                                  <span className="text-sm font-semibold">
+                                    PT-BR
+                                  </span>
+                                </button>
+                                <button
+                                  onClick={() => setCvLanguage('en')}
+                                  className={`flex-1 flex items-center justify-center gap-2 px-4 py-3 rounded-md transition-all duration-200 cursor-pointer ${
+                                    cvLanguage === 'en'
+                                      ? 'bg-white text-gray-900 shadow-md border border-gray-200'
+                                      : 'text-gray-500 hover:text-gray-700'
+                                  }`}
+                                >
+                                  <Image
+                                    src="/images/usa-flag.svg"
+                                    alt="USA Flag"
+                                    width={20}
+                                    height={15}
+                                  />
+                                  <span className="text-sm font-semibold">
+                                    EN-US
+                                  </span>
+                                </button>
+                              </div>
+                            </div>
+                          </div>
+                          <DrawerClose asChild>
+                            <Button
+                              variant="reverse"
+                              onClick={handleDownloadCV}
+                            >
+                              Download
+                            </Button>
+                          </DrawerClose>
+                        </DrawerFooter>
+                      </div>
+                    </DrawerContent>
+                  </Drawer>
+
                   <Link href="https://github.com/gustavoglins" target="_blank">
-                    <Button variant="secondary" size="lg">
+                    <Button variant="reverse" size="lg">
                       Github
                       <svg
                         xmlns="http://www.w3.org/2000/svg"
@@ -272,7 +449,7 @@ export default function Home() {
                     href="https://www.linkedin.com/in/gustavoglins/"
                     target="_blank"
                   >
-                    <Button variant="secondary" size="lg">
+                    <Button variant="reverse" size="lg">
                       LinkedIn
                       <svg
                         xmlns="http://www.w3.org/2000/svg"
@@ -292,7 +469,7 @@ export default function Home() {
                 <Avatar variant="portrait" size={1} ref={avatarRef}>
                   <AvatarImage
                     bw="hover"
-                    src="https://avatars.githubusercontent.com/u/145306272?s=400&u=366f479fd76b067a0a924c52fdb13cae699eca33&v=4"
+                    src="ahttps://avatars.githubusercontent.com/u/145306272?s=400&u=366f479fd76b067a0a924c52fdb13cae699eca33&v=4"
                     alt="Profile Picture"
                   />
                   <AvatarFallback className="text-9xl font-semibold">
@@ -304,13 +481,13 @@ export default function Home() {
                 </TypographyMuted>
               </div>
             </div>
-            <div ref={codeRef}>
+            {/* <div ref={codeRef}>
               <CodeBlock
                 fontSize={28}
                 code={`while (!success) { tryAgain(); }`}
                 language="java"
               />
-            </div>
+            </div> */}
           </div>
         </section>
       )}
