@@ -2,7 +2,11 @@
 import { useEffect, useRef } from 'react';
 import { gsap } from 'gsap';
 
-export default function AnimatedLogo({ onComplete }: { onComplete?: () => void }) {
+export default function AnimatedLogo({
+  onComplete,
+}: {
+  onComplete?: () => void;
+}) {
   const logoRef = useRef<SVGSVGElement>(null);
   const bgRef = useRef<HTMLDivElement>(null);
 
@@ -55,9 +59,9 @@ export default function AnimatedLogo({ onComplete }: { onComplete?: () => void }
     tl.to(
       svg,
       {
-        scale: 1.02,
-        filter: 'drop-shadow(0 0 20px rgba(255,255,255,0.2))',
-        duration: 0.8,
+        scale: 1.0,
+        filter: 'drop-shadow(0 0 20px rgba(255,255,255,0.0))',
+        duration: 0.5,
         // yoyo: true,
         // repeat: 1,
         transformOrigin: 'center',
