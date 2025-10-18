@@ -1,6 +1,7 @@
 {
   "HomePage": {
     "locale": "en",
+    "openToWork": "Open to Work!",
     "subtitle": "Full Stack Developer",
     "paragraph": "Yo! I’m Gustavo Lins, 19yo, Full Stack Developer focused on writing clean code and building useful products.",
     "header": {
@@ -14,5 +15,12 @@
       "description": "Choose your preferred language and download my resume by clicking the button below.",
       "label": "Select Language"
     }
+  },
+  "AboutPage": {
+    "locale": "en",
+    "sectionTitle": "About",
+    "title": "More about",
+    "subtitle": "<me/>",
+    "paragraph": "Software Engineering student with experience in Full Stack development. I'm interested in opportunities where I can apply my knowledge, learn continuously, and contribute solutions that add value to the company."
   }
 }

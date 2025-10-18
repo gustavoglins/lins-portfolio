@@ -1,6 +1,7 @@
 {
   "HomePage": {
     "locale": "pt",
+    "openToWork": "Aberto a Oportunidades!",
     "subtitle": "Desenvolvedor Full Stack",
     "paragraph": "Olá, sou Gustavo Lins, 19 anos, desenvolvedor Full Stack focado em escrever código limpo e construir produtos úteis.",
     "header": {
@@ -14,5 +15,12 @@
       "description": "Escolha seu idioma preferido e baixe meu resumo clicando no botão abaixo.",
       "label": "Selecionar Idioma"
     }
+  },
+  "AboutPage": {
+    "locale": "en",
+    "sectionTitle": "Sobre",
+    "title": "Mais sobre",
+    "subtitle": "<mim/>",
+    "paragraph": "Estudante de Engenharia de Software no 4º semestre, com experiência prática em desenvolvimento full stack. Tenho interesse em oportunidades onde possa aplicar meus conhecimentos, aprender continuamente e contribuir com soluções que agreguem valor à empresa. Proativo, responsável e colaborativo."
   }
 }

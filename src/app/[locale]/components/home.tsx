@@ -29,13 +29,35 @@ import { useEffect, useRef, useState } from 'react';
 
 export default function Home() {
   const t = useTranslations('HomePage');
-  const [showIntro, setShowIntro] = useState(false);
+  const [showIntro, setShowIntro] = useState(true);
   const [cvLanguage, setCvLanguage] = useState<'pt' | 'en'>('pt');
 
   // Refs para os elementos de underline
   const underlineRefs = useRef<(HTMLSpanElement | null)[]>([]);
 
   gsap.registerPlugin(SplitText, ScrollTrigger);
+
+  // Função para limpar todos os underlines (fallback de segurança)
+  const clearAllUnderlines = () => {
+    underlineRefs.current.forEach((underline) => {
+      if (underline) {
+        gsap.killTweensOf(underline);
+        gsap.set(underline, {
+          opacity: 0,
+          scaleY: 1,
+          width: '0%',
+          left: '0%',
+        });
+      }
+    });
+  };
+
+  // Limpa todos os underlines quando o componente é desmontado ou quando showIntro muda
+  useEffect(() => {
+    return () => {
+      clearAllUnderlines();
+    };
+  }, [showIntro]);
 
   // Função para animar o underline baseado na posição do cursor
   const handleMouseEnter = (
@@ -45,6 +67,9 @@ export default function Home() {
     const underline = underlineRefs.current[index];
     if (!underline) return;
 
+    // Para qualquer animação em andamento para evitar conflitos
+    gsap.killTweensOf(underline);
+
     const link = e.currentTarget;
     const rect = link.getBoundingClientRect();
     const mouseX = e.clientX - rect.left;
@@ -53,14 +78,13 @@ export default function Home() {
     // Calcula a posição relativa do mouse (0 a 1)
     const relativePosition = mouseX / linkWidth;
 
-    // Define a largura inicial baseada na distância do centro
-    const distanceFromCenter = Math.abs(relativePosition - 0.5);
-    const initialWidth = Math.max(0.1, 1 - distanceFromCenter * 2); // Mínimo 10% da largura
+    // Sempre começa com um traço pequeno (15% da largura)
+    const initialWidth = 0.15;
 
-    // Calcula a posição inicial para centralizar o underline
+    // Calcula a posição inicial para centralizar o underline na posição do mouse
     const startPosition = relativePosition - initialWidth / 2;
 
-    // Reset do underline
+    // Reset do underline - sempre começa pequeno e centralizado no mouse
     gsap.set(underline, {
       width: `${initialWidth * 100}%`,
       left: `${Math.max(
@@ -68,25 +92,56 @@ export default function Home() {
         Math.min(startPosition * 100, 100 - initialWidth * 100)
       )}%`,
       opacity: 1,
+      scaleY: 1,
     });
 
-    // Animação para crescer até o tamanho completo
-    gsap.to(underline, {
-      width: '100%',
-      left: '0%',
-      duration: 0.5,
+    // Animação em múltiplas etapas para ser mais dinâmica e fluida
+    const tl = gsap.timeline();
+
+    // Primeira etapa: pequeno "pulse" inicial para chamar atenção
+    tl.to(underline, {
+      scaleY: 1.2,
+      duration: 0.1,
       ease: 'power2.out',
-    });
+    })
+      // Segunda etapa: volta ao tamanho normal e expande horizontalmente
+      .to(underline, {
+        scaleY: 1,
+        width: '100%',
+        left: '0%',
+        duration: 0.4,
+        ease: 'power2.out',
+      })
+      // Terceira etapa: pequeno ajuste final para garantir suavidade
+      .to(underline, {
+        opacity: 1,
+        duration: 0.05,
+        ease: 'none',
+      });
   };
 
   const handleMouseLeave = (index: number) => {
     const underline = underlineRefs.current[index];
     if (!underline) return;
 
+    // Para qualquer animação em andamento para evitar conflitos
+    gsap.killTweensOf(underline);
+
+    // Animação de saída mais suave e elegante
     gsap.to(underline, {
       opacity: 0,
-      duration: 0.2,
+      scaleY: 0.8,
+      duration: 0.25,
       ease: 'power2.out',
+      onComplete: () => {
+        // Garantia extra: força o reset caso algo dê errado
+        gsap.set(underline, {
+          opacity: 0,
+          scaleY: 1,
+          width: '0%',
+          left: '0%',
+        });
+      },
     });
   };
 
@@ -148,7 +203,7 @@ export default function Home() {
         transformOrigin: 'center center',
         ease: 'circ.out',
         stagger: 0.02,
-        duration: 0.6,
+        duration: 0.625,
       });
 
       // entrada dos outros elementos
@@ -336,7 +391,8 @@ export default function Home() {
             <div className="w-full flex items-start justify-between gap-8 px-0">
               <div className="flex-1">
                 <TypographyMuted ref={commentTopRef}>
-                  <span className="text-[#ff1744]">{'//'}</span> Open to Work!
+                  <span className="text-[#ff1744]">{'//'}</span>{' '}
+                  {t('openToWork')}
                 </TypographyMuted>
                 <TypographyH1
                   ref={titleRef}
@@ -382,7 +438,7 @@ export default function Home() {
                                   onClick={() => setCvLanguage('pt')}
                                   className={`flex-1 flex items-center justify-center gap-2 px-4 py-3 rounded-md transition-all duration-200 cursor-pointer ${
                                     cvLanguage === 'pt'
-                                      ? 'bg-white text-gray-900 shadow-md border border-gray-200'
+                                      ? 'bg-white text-gray-900 shadow-md outline outline-gray-200'
                                       : 'text-gray-500 hover:text-gray-700'
                                   }`}
                                 >
@@ -400,7 +456,7 @@ export default function Home() {
                                   onClick={() => setCvLanguage('en')}
                                   className={`flex-1 flex items-center justify-center gap-2 px-4 py-3 rounded-md transition-all duration-200 cursor-pointer ${
                                     cvLanguage === 'en'
-                                      ? 'bg-white text-gray-900 shadow-md border border-gray-200'
+                                      ? 'bg-white text-gray-900 shadow-md outline outline-gray-200'
                                       : 'text-gray-500 hover:text-gray-700'
                                   }`}
                                 >
@@ -469,7 +525,7 @@ export default function Home() {
                 <Avatar variant="portrait" size={1} ref={avatarRef}>
                   <AvatarImage
                     bw="hover"
-                    src="ahttps://avatars.githubusercontent.com/u/145306272?s=400&u=366f479fd76b067a0a924c52fdb13cae699eca33&v=4"
+                    src="https://avatars.githubusercontent.com/u/145306272?s=400&u=366f479fd76b067a0a924c52fdb13cae699eca33&v=4"
                     alt="Profile Picture"
                   />
                   <AvatarFallback className="text-9xl font-semibold">
