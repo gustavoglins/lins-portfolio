@@ -162,7 +162,7 @@ export default function Header({ locale }: { locale: string }) {
               }}
             >
               <Button
-                variant="ghost"
+                variant="link"
                 onClick={handleToggleLocale}
                 aria-label={`Switch language (current: ${locale})`}
               >

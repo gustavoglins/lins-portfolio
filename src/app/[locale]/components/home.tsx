@@ -1,6 +1,7 @@
 'use client';
 
 import AnimatedLogo from '@/components/animated-logo';
+import LanguageToggle from '@/components/language-toggle';
 import TypographyH1 from '@/components/typography/TypographyH1';
 import { TypographyLarge } from '@/components/typography/TypographyLarge';
 import { TypographyMuted } from '@/components/typography/TypographyMuted';
@@ -288,98 +289,12 @@ export default function Home() {
           id="home"
           className="h-screen w-full flex items-center justify-between overflow-hidden relative z-0"
         >
-          {/* <header
-            ref={headerRef}
-            className="absolute top-0 py-12.5 left-0 px-15 w-full flex items-center justify-between z-1"
-          >
-            <TypographyH2 className="uppercase font-semibold tracking-wide">
-              Gustavo
-            </TypographyH2>
-            <nav>
-              <ul className="flex gap-8">
-                <li>
-                  <Link
-                    href="#about"
-                    className="relative inline-block cursor-pointer"
-                    onMouseEnter={(e) => handleMouseEnter(e, 0)}
-                    onMouseLeave={() => handleMouseLeave(0)}
-                  >
-                    <span className="relative z-10">{t('header.about')}</span>
-                    <span
-                      ref={(el) => {
-                        underlineRefs.current[0] = el;
-                      }}
-                      className="absolute bottom-0 h-0.5 bg-[#ff1744] opacity-0"
-                    ></span>
-                  </Link>
-                </li>
-                <li>
-                  <Link
-                    href="#experience"
-                    className="relative inline-block cursor-pointer"
-                    onMouseEnter={(e) => handleMouseEnter(e, 1)}
-                    onMouseLeave={() => handleMouseLeave(1)}
-                  >
-                    <span className="relative z-10">
-                      {t('header.experience')}
-                    </span>
-                    <span
-                      ref={(el) => {
-                        underlineRefs.current[1] = el;
-                      }}
-                      className="absolute bottom-0 h-0.5 bg-[#ff1744] opacity-0"
-                    ></span>
-                  </Link>
-                </li>
-                <li>
-                  <Link
-                    href="#projects"
-                    className="relative inline-block cursor-pointer"
-                    onMouseEnter={(e) => handleMouseEnter(e, 2)}
-                    onMouseLeave={() => handleMouseLeave(2)}
-                  >
-                    <span className="relative z-10">
-                      {t('header.projects')}
-                    </span>
-                    <span
-                      ref={(el) => {
-                        underlineRefs.current[2] = el;
-                      }}
-                      className="absolute bottom-0 h-0.5 bg-[#ff1744] opacity-0"
-                    ></span>
-                  </Link>
-                </li>
-                <li>
-                  <Link
-                    href="#contact"
-                    className="relative inline-block cursor-pointer"
-                    onMouseEnter={(e) => handleMouseEnter(e, 3)}
-                    onMouseLeave={() => handleMouseLeave(3)}
-                  >
-                    <span className="relative z-10">{t('header.contact')}</span>
-                    <span
-                      ref={(el) => {
-                        underlineRefs.current[3] = el;
-                      }}
-                      className="absolute bottom-0 h-0.5 bg-[#ff1744] opacity-0"
-                    ></span>
-                  </Link>
-                </li>
-              </ul>
-            </nav>
-          </header> */}
           <header
             ref={headerRef}
-            // className="absolute top-0 left-0 px-15 py-12.5 w-full flex items-center justify-between z-1"
             className="absolute top-0 left-0 px-15 p-5 w-full flex items-center justify-between z-1"
           >
             <nav className="w-full">
               <ul className="flex items-center justify-between w-full">
-                {/* <li>
-                  <TypographyH4 className="uppercase font-semibold tracking-widest">
-                    GL
-                  </TypographyH4>
-                </li> */}
                 <li>
                   <Link
                     href="#about"
@@ -583,19 +498,7 @@ export default function Home() {
                       </svg>
                     </Button>
                   </Link>
-                  <Button variant="reverse" size="lg">
-                    Button
-                    <svg
-                      xmlns="http://www.w3.org/2000/svg"
-                      width="16"
-                      height="16"
-                      viewBox="0 0 24 24"
-                      fill="currentColor"
-                      className="ml-2 inline"
-                    >
-                      <path d="M20.447 20.452h-3.554v-5.569c0-1.328-.026-3.037-1.852-3.037-1.853 0-2.135 1.445-2.135 2.938v5.668H9.354V9h3.414v1.561h.049c.476-.9 1.637-1.852 3.37-1.852 3.602 0 4.268 2.37 4.268 5.455v6.288zM5.337 7.433a2.062 2.062 0 1 1 0-4.125 2.062 2.062 0 0 1 0 4.125zM7.119 20.452H3.554V9h3.565v11.452zM22.225 0H1.771C.792 0 0 .774 0 1.727v20.545C0 23.226.792 24 1.771 24h20.451C23.2 24 24 23.226 24 22.273V1.727C24 .774 23.2 0 22.225 0z" />
-                    </svg>
-                  </Button>
+                  <LanguageToggle />
                 </div>
               </div>
               <div className="flex flex-col gap-2 flex-shrink-0">
