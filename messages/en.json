@@ -5,10 +5,10 @@
     "subtitle": "Full Stack Developer",
     "paragraph": "Yo! I’m Gustavo Lins, 19yo, Full Stack Developer focused on writing clean code and building useful products.",
     "header": {
-      "about": "About",
-      "experience": "Experience",
-      "projects": "Projects",
-      "contact": "Contact"
+      "about": "[ 01. About ]",
+      "experience": "[ 02. Experience ]",
+      "projects": "[ 03. Projects ]",
+      "contact": "[ 04. Contact ]"
     },
     "drawer": {
       "title": "Download resume",

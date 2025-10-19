@@ -142,9 +142,20 @@ section {
   body {
     min-height: 100vh;
   }
+
+  /* Cor da seleção de texto */
+  ::selection {
+    background-color: #d13251;
+    color: white;
+  }
+
+  ::-moz-selection {
+    background-color: #d13251;
+    color: white;
+  }
 }
 
-/* Esconder a barra de scroll visualmente mas manter a funcionalidade */
+/* Esconder a barra de scroll, mas mantem funcionando */
 html {
   scrollbar-width: none; /* Firefox */
   -ms-overflow-style: none; /* Internet Explorer 10+ */

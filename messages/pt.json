@@ -5,10 +5,10 @@
     "subtitle": "Desenvolvedor Full Stack",
     "paragraph": "Olá, sou Gustavo Lins, 19 anos, desenvolvedor Full Stack focado em escrever código limpo e construir produtos úteis.",
     "header": {
-      "about": "Sobre",
-      "experience": "Experiência",
-      "projects": "Projetos",
-      "contact": "Contato"
+      "about": "[ 01. Sobre ]",
+      "experience": "[ 02. Experiência ]",
+      "projects": "[ 03. Projetos ]",
+      "contact": "[ 04. Contato ]"
     },
     "drawer": {
       "title": "Baixar curriculo",
