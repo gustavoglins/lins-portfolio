@@ -1,6 +1,5 @@
 'use client';
 
-import { usePathname } from '@/i18n/navigation';
 import { gsap } from 'gsap';
 import { ScrollSmoother } from 'gsap/ScrollSmoother';
 import { ScrollTrigger } from 'gsap/ScrollTrigger';
@@ -12,6 +11,8 @@ import LanguageToggle from './language-toggle';
 import { TypographyH2 } from './typography/TypographyH2';
 import { Button } from './ui/button';
 import { Popover, PopoverContent, PopoverTrigger } from './ui/popover';
+import { Drawer, DrawerContent, DrawerTrigger } from './ui/drawer';
+import DownloadCvDrawer from './ui/download-cv-drawer';
 
 if (typeof window !== 'undefined') {
   gsap.registerPlugin(ScrollTrigger, ScrollSmoother);
@@ -19,7 +20,6 @@ if (typeof window !== 'undefined') {
 
 export default function Header({ locale }: { locale: string }) {
   const t = useTranslations('Header');
-  const pathname = usePathname();
 
   const headerRef = useRef<HTMLElement>(null);
   const logoRef = useRef<HTMLDivElement>(null);
@@ -212,8 +212,8 @@ export default function Header({ locale }: { locale: string }) {
                       flagHeight={42}
                     />
                   </div>
-                  <div className="bg-[#ff1744] text-background w-full px-8 py-7 flex items-center justify-between cursor-pointer rounded-lg">
-                    Download CV <Download />
+                  <div className="w-full">
+                    <DownloadCvDrawer theme="dark" variant="panel" />
                   </div>
                 </PopoverContent>
               </Popover>

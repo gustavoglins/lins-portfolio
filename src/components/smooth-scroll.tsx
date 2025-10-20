@@ -20,7 +20,8 @@ export default function SmoothScroll({ children }: SmoothScrollProps) {
     smootherRef.current = ScrollSmoother.create({
       wrapper: '#smooth-wrapper',
       content: '#smooth-content',
-      smooth: 1.5, // Suavidade do scroll (0-3, quanto maior mais suave)
+      // smooth: 1.5, // Suavidade do scroll (0-3, quanto maior mais suave)
+      smooth: 0.5, // Suavidade do scroll (0-3, quanto maior mais suave)
       effects: true, // Habilita data-speed e data-lag
       smoothTouch: 0.1, // Suavidade em dispositivos touch (0 desabilita)
       normalizeScroll: true, // Normaliza o scroll em diferentes navegadores

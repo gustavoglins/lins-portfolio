@@ -7,22 +7,11 @@ import { TypographyLarge } from '@/components/typography/TypographyLarge';
 import { TypographyMuted } from '@/components/typography/TypographyMuted';
 import { Avatar, AvatarFallback, AvatarImage } from '@/components/ui/avatar';
 import { Button } from '@/components/ui/button';
-import {
-  Drawer,
-  DrawerClose,
-  DrawerContent,
-  DrawerDescription,
-  DrawerFooter,
-  DrawerHeader,
-  DrawerTitle,
-  DrawerTrigger,
-} from '@/components/ui/drawer';
+import DownloadCvDrawer from '@/components/ui/download-cv-drawer';
 import { gsap } from 'gsap';
 import { ScrollTrigger } from 'gsap/ScrollTrigger';
 import { SplitText } from 'gsap/SplitText';
-import { Download } from 'lucide-react';
 import { useTranslations } from 'next-intl';
-import Image from 'next/image';
 import Link from 'next/link';
 import { useEffect, useRef, useState } from 'react';
 
@@ -393,81 +382,10 @@ export default function Home() {
                 </TypographyLarge>
 
                 <div className="flex gap-5" ref={buttonWrapper}>
-                  <Drawer>
-                    <DrawerTrigger asChild>
-                      <Button variant="reverse" size="lg">
-                        Download CV <Download />
-                      </Button>
-                    </DrawerTrigger>
-                    <DrawerContent>
-                      <div className="mx-auto w-full max-w-sm">
-                        <DrawerHeader>
-                          <DrawerTitle>{t('drawer.title')}</DrawerTitle>
-                          <DrawerDescription>
-                            {t('drawer.description')}
-                          </DrawerDescription>
-                        </DrawerHeader>
-                        <DrawerFooter>
-                          <div className="mb-4">
-                            <div className="flex flex-col gap-4 py-4">
-                              <p className="text-sm text-foreground">
-                                {t('drawer.label')}
-                              </p>
-                              <div className="flex w-full gap-1 bg-gray-50 p-1 rounded-lg">
-                                <button
-                                  onClick={() => setCvLanguage('pt')}
-                                  className={`flex-1 flex items-center justify-center gap-2 px-4 py-3 rounded-md transition-all duration-200 cursor-pointer ${
-                                    cvLanguage === 'pt'
-                                      ? 'bg-white text-gray-900 shadow-md outline outline-gray-200'
-                                      : 'text-gray-500 hover:text-gray-700'
-                                  }`}
-                                >
-                                  <Image
-                                    src="/images/brazil-flag.svg"
-                                    alt="Brazil Flag"
-                                    width={20}
-                                    height={15}
-                                  />
-                                  <span className="text-sm font-semibold">
-                                    PT-BR
-                                  </span>
-                                </button>
-                                <button
-                                  onClick={() => setCvLanguage('en')}
-                                  className={`flex-1 flex items-center justify-center gap-2 px-4 py-3 rounded-md transition-all duration-200 cursor-pointer ${
-                                    cvLanguage === 'en'
-                                      ? 'bg-white text-gray-900 shadow-md outline outline-gray-200'
-                                      : 'text-gray-500 hover:text-gray-700'
-                                  }`}
-                                >
-                                  <Image
-                                    src="/images/usa-flag.svg"
-                                    alt="USA Flag"
-                                    width={20}
-                                    height={15}
-                                  />
-                                  <span className="text-sm font-semibold">
-                                    EN-US
-                                  </span>
-                                </button>
-                              </div>
-                            </div>
-                          </div>
-                          <DrawerClose asChild>
-                            <Button
-                              variant="reverse"
-                              onClick={handleDownloadCV}
-                            >
-                              Download
-                            </Button>
-                          </DrawerClose>
-                        </DrawerFooter>
-                      </div>
-                    </DrawerContent>
-                  </Drawer>
+                  <DownloadCvDrawer theme="light" variant="button" />
 
                   <Link href="https://github.com/gustavoglins" target="_blank">
-                    <Button variant="reverse" size="lg">
+                    <Button variant="default" size="lg">
                       Github
                       <svg
                         xmlns="http://www.w3.org/2000/svg"
@@ -485,7 +403,7 @@ export default function Home() {
                     href="https://www.linkedin.com/in/gustavoglins/"
                     target="_blank"
                   >
-                    <Button variant="reverse" size="lg">
+                    <Button variant="default" size="lg">
                       LinkedIn
                       <svg
                         xmlns="http://www.w3.org/2000/svg"

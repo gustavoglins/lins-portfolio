@@ -111,7 +111,7 @@ export default function LanguageToggle({
 
   return (
     <Button
-      variant="reverse"
+      variant="default"
       size="lg"
       onClick={toggleLanguage}
       className="relative overflow-hidden group"
