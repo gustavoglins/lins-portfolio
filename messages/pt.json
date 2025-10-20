@@ -16,6 +16,14 @@
       "label": "Selecionar Idioma"
     }
   },
+  "Header": {
+    "home": "Início",
+    "about": "Sobre",
+    "experience": "Experiência",
+    "projects": "Projetos",
+    "contact": "Contato",
+    "changeLanguage": "Mudar para Inglês"
+  },
   "AboutPage": {
     "locale": "en",
     "sectionTitle": "Sobre",

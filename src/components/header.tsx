@@ -1,47 +1,29 @@
 'use client';
 
 import { usePathname } from '@/i18n/navigation';
-import { Download, Menu } from 'lucide-react';
-import Image from 'next/image';
-import TypographyH1 from './typography/TypographyH1';
-import { Button } from './ui/button';
-import Link from 'next/link';
-import { useEffect, useRef, useState } from 'react';
 import { gsap } from 'gsap';
-import { ScrollTrigger } from 'gsap/ScrollTrigger';
 import { ScrollSmoother } from 'gsap/ScrollSmoother';
+import { ScrollTrigger } from 'gsap/ScrollTrigger';
+import { Download, Menu } from 'lucide-react';
+import { useTranslations } from 'next-intl';
+import Link from 'next/link';
+import { useEffect, useRef } from 'react';
+import LanguageToggle from './language-toggle';
 import { TypographyH2 } from './typography/TypographyH2';
+import { Button } from './ui/button';
+import { Popover, PopoverContent, PopoverTrigger } from './ui/popover';
 
 if (typeof window !== 'undefined') {
   gsap.registerPlugin(ScrollTrigger, ScrollSmoother);
 }
 
 export default function Header({ locale }: { locale: string }) {
+  const t = useTranslations('Header');
   const pathname = usePathname();
+
   const headerRef = useRef<HTMLElement>(null);
   const logoRef = useRef<HTMLDivElement>(null);
   const navItemsRef = useRef<HTMLLIElement[]>([]);
-
-  const flagByLocale: Record<string, string> = {
-    en: '/images/usa-flag.svg',
-    pt: '/images/brazil-flag.svg',
-  };
-
-  function handleToggleLocale() {
-    const currentIndex = ['en', 'pt'].indexOf(locale);
-    const nextLocale = ['en', 'pt'][(currentIndex + 1) % 2];
-    const stripLocalePrefix = (p: string) => {
-      const match = p.match(/^\/(en|pt)(\/|$)/);
-      if (match) return p.slice(match[0].length - 1);
-      return p;
-    };
-
-    const basePath = stripLocalePrefix(pathname || '/');
-    const search = window.location.search || '';
-    const target = `/${nextLocale}${basePath}${search}`;
-
-    window.location.href = target;
-  }
 
   useEffect(() => {
     if (!headerRef.current) return;
@@ -56,7 +38,7 @@ export default function Header({ locale }: { locale: string }) {
       opacity: 0,
     });
     gsap.set(animatableElements, {
-      y: -100,
+      scale: 0,
       opacity: 0,
     });
 
@@ -67,7 +49,7 @@ export default function Header({ locale }: { locale: string }) {
         clearInterval(checkSmoother);
 
         let isHeaderVisible = false;
-        const threshold = window.innerHeight * 0.6; // 60% da altura da viewport
+        const threshold = window.innerHeight * 0.7; // 70% da altura da viewport
 
         // Função para verificar e atualizar o header baseado no scroll
         const updateHeader = () => {
@@ -81,31 +63,23 @@ export default function Header({ locale }: { locale: string }) {
               duration: 0.3,
             });
 
-            // Animar entrada dos elementos em onda (descendo)
+            // Animar entrada dos elementos com scale (expandindo) - sincronizados
             gsap.to(animatableElements, {
-              y: 0,
+              scale: 1,
               opacity: 1,
-              duration: 0.8,
-              ease: 'power3.out',
-              stagger: {
-                each: 0.1,
-                from: 'start',
-              },
+              duration: 0.6,
+              ease: 'power2.out',
             });
           } else if (scrollY <= threshold && isHeaderVisible) {
             // Esconder o header
             isHeaderVisible = false;
 
-            // Animar saída dos elementos em onda (subindo)
+            // Animar saída dos elementos com scale (encolhendo) - sincronizados
             gsap.to(animatableElements, {
-              y: -100,
+              scale: 0,
               opacity: 0,
-              duration: 0.6,
+              duration: 0.4,
               ease: 'power2.in',
-              stagger: {
-                each: 0.08,
-                from: 'end',
-              },
               onComplete: () => {
                 // Esconder o header completamente após a animação
                 gsap.set(headerRef.current, {
@@ -142,55 +116,107 @@ export default function Header({ locale }: { locale: string }) {
       className="fixed top-0 left-0 w-full z-50 px-15 py-12.5"
     >
       <div className="flex items-center justify-between">
-        <div ref={logoRef}>
+        <div ref={logoRef} className="flex-shrink-0">
           <Link href={`/${locale}`}>
             <TypographyH2 className="uppercase font-semibold tracking-wide text-background">
               Gustavo
             </TypographyH2>
           </Link>
         </div>
-        <nav>
-          <ul>
-            <li></li>
-          </ul>
-        </nav>
-        <nav>
+        <nav className="flex-shrink-0">
           <ul className="flex items-center gap-4">
-            <li
-              ref={(el) => {
-                if (el) navItemsRef.current[0] = el;
-              }}
-            >
-              <Button
-                variant="link"
-                onClick={handleToggleLocale}
-                aria-label={`Switch language (current: ${locale})`}
-              >
-                <Image
-                  src={flagByLocale[locale] ?? '/images/usa-flag.svg'}
-                  alt={`${locale} flag`}
-                  width={29}
-                  height={20}
-                />
-              </Button>
-            </li>
-            <li
-              ref={(el) => {
-                if (el) navItemsRef.current[1] = el;
-              }}
-            >
-              <Button size="lg" variant="secondary">
-                Download CV <Download />
-              </Button>
-            </li>
             <li
               ref={(el) => {
                 if (el) navItemsRef.current[2] = el;
               }}
             >
-              <Button size="lg" variant="secondary">
-                Menu <Menu />
-              </Button>
+              <Popover>
+                <PopoverTrigger asChild>
+                  <Button
+                    size="lg"
+                    variant="secondary"
+                    type="button"
+                    className="uppercase"
+                  >
+                    Menu <Menu />
+                  </Button>
+                </PopoverTrigger>
+                <PopoverContent
+                  side="bottom"
+                  align="end"
+                  sideOffset={8}
+                  avoidCollisions={true}
+                  onOpenAutoFocus={(e) => e.preventDefault()}
+                  className="text-xl uppercase font-normal tracking-widest flex flex-col gap-2"
+                >
+                  <div className="bg-background text-foreground flex flex-col items-start w-full justify-center p-5 rounded-lg">
+                    <ul className="flex flex-col gap-6 w-full">
+                      <li className="w-full">
+                        <Link
+                          href={`/${locale}`}
+                          className="flex items-center cursor-pointer w-full px-3 py-2 rounded-md transition-colors duration-200 hover:bg-[#ff1744]/10"
+                        >
+                          <p>{t('home')}</p>
+                        </Link>
+                      </li>
+                      <li className="w-full">
+                        <Link
+                          href={`/${locale}#about`}
+                          className="flex items-center cursor-pointer w-full px-3 py-2 rounded-md transition-colors duration-200 hover:bg-[#ff1744]/10"
+                        >
+                          {t('about')}
+                        </Link>
+                      </li>
+                      <li className="w-full">
+                        <Link
+                          href={`/${locale}#experience`}
+                          className="flex items-center cursor-pointer w-full px-3 py-2 rounded-md transition-colors duration-200 hover:bg-[#ff1744]/10"
+                        >
+                          {t('experience')}
+                        </Link>
+                      </li>
+                      <li className="w-full">
+                        <Link
+                          href={`/${locale}#projects`}
+                          className="flex items-center cursor-pointer w-full px-3 py-2 rounded-md transition-colors duration-200 hover:bg-[#ff1744]/10"
+                        >
+                          {t('projects')}
+                        </Link>
+                      </li>
+                      <li className="w-full">
+                        <Link
+                          href={`/${locale}#contact`}
+                          className="flex items-center cursor-pointer w-full px-3 py-2 rounded-md transition-colors duration-200 hover:bg-[#ff1744]/10"
+                        >
+                          {t('contact')}
+                        </Link>
+                      </li>
+                    </ul>
+                  </div>
+                  <div
+                    className="bg-background text-foreground w-full px-8 py-7 flex items-center justify-between cursor-pointer rounded-lg transition-all duration-300"
+                    onClick={(e) => {
+                      e.stopPropagation();
+                      const toggleButton = e.currentTarget.querySelector(
+                        '[role="button"]'
+                      ) as HTMLElement;
+                      if (toggleButton) {
+                        toggleButton.click();
+                      }
+                    }}
+                  >
+                    <span>{t('changeLanguage')}</span>
+                    <LanguageToggle
+                      variant="flag-only"
+                      flagWidth={52}
+                      flagHeight={42}
+                    />
+                  </div>
+                  <div className="bg-[#ff1744] text-background w-full px-8 py-7 flex items-center justify-between cursor-pointer rounded-lg">
+                    Download CV <Download />
+                  </div>
+                </PopoverContent>
+              </Popover>
             </li>
           </ul>
         </nav>

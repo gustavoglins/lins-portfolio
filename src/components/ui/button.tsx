@@ -1,11 +1,11 @@
+import * as React from 'react';
 import { Slot } from '@radix-ui/react-slot';
 import { cva, type VariantProps } from 'class-variance-authority';
-import * as React from 'react';
 
 import { cn } from '@/lib/utils';
 
 const buttonVariants = cva(
-  "cursor-pointer rounded-full inline-flex items-center justify-center gap-2 whitespace-nowrap text-sm font-medium transition-all duration-200 ease-out disabled:pointer-events-none disabled:opacity-50 [&_svg]:pointer-events-none [&_svg:not([class*='size-'])]:size-4 shrink-0 [&_svg]:shrink-0 outline-none focus-visible:border-ring focus-visible:ring-ring/50 focus-visible:ring-[3px] aria-invalid:ring-destructive/20 dark:aria-invalid:ring-destructive/40 aria-invalid:border-destructive hover:scale-110 hover:shadow-lg hover:shadow-primary/10 dark:hover:shadow-primary/10 active:scale-100",
+  "cursor-pointer rounded-full inline-flex items-center justify-center gap-2 whitespace-nowrap text-sm font-medium transition-all disabled:pointer-events-none disabled:opacity-50 [&_svg]:pointer-events-none [&_svg:not([class*='size-'])]:size-4 shrink-0 [&_svg]:shrink-0 outline-none focus-visible:border-ring focus-visible:ring-ring/50 focus-visible:ring-[3px] aria-invalid:ring-destructive/20 dark:aria-invalid:ring-destructive/40 aria-invalid:border-destructive",
   {
     variants: {
       variant: {
@@ -48,62 +48,16 @@ function Button({
     asChild?: boolean;
   }) {
   const Comp = asChild ? Slot : 'button';
-  const buttonRef = React.useRef<HTMLButtonElement>(null);
-  const [mousePosition, setMousePosition] = React.useState({ x: 0, y: 0 });
-  const [isHovered, setIsHovered] = React.useState(false);
-
-  React.useEffect(() => {
-    const handleMouseMove = (e: MouseEvent) => {
-      if (buttonRef.current && isHovered) {
-        const rect = buttonRef.current.getBoundingClientRect();
-        const centerX = rect.left + rect.width / 2;
-        const centerY = rect.top + rect.height / 2;
-
-        const deltaX = (e.clientX - centerX) * 0.1;
-        const deltaY = (e.clientY - centerY) * 0.1;
-
-        setMousePosition({ x: deltaX, y: deltaY });
-      }
-    };
-
-    const handleMouseLeave = () => {
-      setIsHovered(false);
-      // Volta suavemente para a posição original
-      setTimeout(() => {
-        setMousePosition({ x: 0, y: 0 });
-      }, 50);
-    };
-
-    const handleMouseEnter = () => {
-      setIsHovered(true);
-    };
-
-    if (buttonRef.current) {
-      buttonRef.current.addEventListener('mouseenter', handleMouseEnter);
-      buttonRef.current.addEventListener('mouseleave', handleMouseLeave);
-      document.addEventListener('mousemove', handleMouseMove);
-    }
-
-    return () => {
-      if (buttonRef.current) {
-        buttonRef.current.removeEventListener('mouseenter', handleMouseEnter);
-        buttonRef.current.removeEventListener('mouseleave', handleMouseLeave);
-      }
-      document.removeEventListener('mousemove', handleMouseMove);
-    };
-  }, [isHovered]);
 
   return (
     <Comp
-      ref={buttonRef}
       data-slot="button"
       className={cn(buttonVariants({ variant, size, className }))}
-      style={{
-        transform: `translate(${mousePosition.x}px, ${mousePosition.y}px)`,
-      }}
       {...props}
     />
   );
 }
 
 export { Button, buttonVariants };
+
+//

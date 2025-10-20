@@ -90,15 +90,16 @@ export default function Home() {
         0,
         Math.min(startPosition * 100, 100 - initialWidth * 100)
       )}%`,
-      opacity: 1,
+      opacity: 0,
       scaleY: 1,
     });
 
-    // Animação mais rápida e responsiva - sem etapas desnecessárias
+    // Animação com fade-in e expansão
     gsap.to(underline, {
+      opacity: 1,
       width: '100%',
       left: '0%',
-      duration: 0.65, // Reduzido de 0.4 para 0.25
+      duration: 0.65,
       ease: 'power2.out',
     });
   };
