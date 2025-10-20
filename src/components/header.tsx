@@ -147,74 +147,82 @@ export default function Header({ locale }: { locale: string }) {
                   sideOffset={8}
                   avoidCollisions={true}
                   onOpenAutoFocus={(e) => e.preventDefault()}
-                  className="text-xl uppercase font-normal tracking-widest flex flex-col gap-2"
+                  className="text-xl uppercase font-normal tracking-widest"
                 >
-                  <div className="bg-background text-foreground flex flex-col items-start w-full justify-center p-5 rounded-lg">
-                    <ul className="flex flex-col gap-6 w-full">
-                      <li className="w-full">
-                        <Link
-                          href={`/${locale}`}
-                          className="flex items-center cursor-pointer w-full px-3 py-2 rounded-md transition-colors duration-200 hover:bg-[#ff1744]/10"
-                        >
-                          <p>{t('home')}</p>
-                        </Link>
-                      </li>
-                      <li className="w-full">
-                        <Link
-                          href={`/${locale}#about`}
-                          className="flex items-center cursor-pointer w-full px-3 py-2 rounded-md transition-colors duration-200 hover:bg-[#ff1744]/10"
-                        >
-                          {t('about')}
-                        </Link>
-                      </li>
-                      <li className="w-full">
-                        <Link
-                          href={`/${locale}#experience`}
-                          className="flex items-center cursor-pointer w-full px-3 py-2 rounded-md transition-colors duration-200 hover:bg-[#ff1744]/10"
-                        >
-                          {t('experience')}
-                        </Link>
-                      </li>
-                      <li className="w-full">
-                        <Link
-                          href={`/${locale}#projects`}
-                          className="flex items-center cursor-pointer w-full px-3 py-2 rounded-md transition-colors duration-200 hover:bg-[#ff1744]/10"
-                        >
-                          {t('projects')}
-                        </Link>
-                      </li>
-                      <li className="w-full">
-                        <Link
-                          href={`/${locale}#contact`}
-                          className="flex items-center cursor-pointer w-full px-3 py-2 rounded-md transition-colors duration-200 hover:bg-[#ff1744]/10"
-                        >
-                          {t('contact')}
-                        </Link>
-                      </li>
-                    </ul>
-                  </div>
-                  <div
-                    className="bg-background text-foreground w-full px-8 py-7 flex items-center justify-between cursor-pointer rounded-lg transition-all duration-300"
-                    onClick={(e) => {
-                      e.stopPropagation();
-                      const toggleButton = e.currentTarget.querySelector(
-                        '[role="button"]'
-                      ) as HTMLElement;
-                      if (toggleButton) {
-                        toggleButton.click();
-                      }
-                    }}
-                  >
-                    <span>{t('changeLanguage')}</span>
-                    <LanguageToggle
-                      variant="flag-only"
-                      flagWidth={52}
-                      flagHeight={42}
-                    />
-                  </div>
-                  <div className="w-full">
-                    <DownloadCvDrawer theme="dark" variant="panel" />
-                  </div>
+                  <ul className="flex flex-col gap-2">
+                    <li>
+                      <div className="bg-background text-foreground flex flex-col items-start w-full justify-center p-5 rounded-lg">
+                        <ul className="flex flex-col gap-6 w-full">
+                          <li className="w-full">
+                            <Link
+                              href={`/${locale}`}
+                              className="flex items-center cursor-pointer w-full px-3 py-2 rounded-md transition-colors duration-200 hover:bg-[#ff1744]/10"
+                            >
+                              <p>{t('home')}</p>
+                            </Link>
+                          </li>
+                          <li className="w-full">
+                            <Link
+                              href={`/${locale}#about`}
+                              className="flex items-center cursor-pointer w-full px-3 py-2 rounded-md transition-colors duration-200 hover:bg-[#ff1744]/10"
+                            >
+                              {t('about')}
+                            </Link>
+                          </li>
+                          <li className="w-full">
+                            <Link
+                              href={`/${locale}#experience`}
+                              className="flex items-center cursor-pointer w-full px-3 py-2 rounded-md transition-colors duration-200 hover:bg-[#ff1744]/10"
+                            >
+                              {t('experience')}
+                            </Link>
+                          </li>
+                          <li className="w-full">
+                            <Link
+                              href={`/${locale}#projects`}
+                              className="flex items-center cursor-pointer w-full px-3 py-2 rounded-md transition-colors duration-200 hover:bg-[#ff1744]/10"
+                            >
+                              {t('projects')}
+                            </Link>
+                          </li>
+                          <li className="w-full">
+                            <Link
+                              href={`/${locale}#contact`}
+                              className="flex items-center cursor-pointer w-full px-3 py-2 rounded-md transition-colors duration-200 hover:bg-[#ff1744]/10"
+                            >
+                              {t('contact')}
+                            </Link>
+                          </li>
+                        </ul>
+                      </div>
+                    </li>
+                    <li>
+                      <div
+                        className="bg-background text-foreground w-full px-8 py-7 flex items-center justify-between cursor-pointer rounded-lg transition-all duration-300"
+                        onClick={(e) => {
+                          e.stopPropagation();
+                          const toggleButton = e.currentTarget.querySelector(
+                            '[role="button"]'
+                          ) as HTMLElement;
+                          if (toggleButton) {
+                            toggleButton.click();
+                          }
+                        }}
+                      >
+                        <span>{t('changeLanguage')}</span>
+                        <LanguageToggle
+                          variant="flag-only"
+                          flagWidth={52}
+                          flagHeight={42}
+                        />
+                      </div>
+                    </li>
+                    <li>
+                      <div className="w-full">
+                        <DownloadCvDrawer theme="dark" variant="panel" />
+                      </div>
+                    </li>
+                  </ul>
                 </PopoverContent>
               </Popover>
             </li>
