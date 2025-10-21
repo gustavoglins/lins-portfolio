@@ -38,7 +38,7 @@ export default function WarningBanner() {
   return (
     <div
       id="warning-banner"
-      className="flex justify-between items-center px-10 fixed bg-gradient-to-br from-[#ffb347] to-[#ffcc7f] py-0.5 text-center w-full text-[#442b00] font-medium"
+      className="flex justify-between items-center px-10 fixed bg-gradient-to-br from-[#ffb347] to-[#ffcc7f] py-0 text-center w-full text-[#442b00] font-medium z-9999"
     >
       <p />
       In Development

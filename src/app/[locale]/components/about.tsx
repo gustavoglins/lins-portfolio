@@ -17,11 +17,10 @@ export default function About() {
   const titleRef = useRef(null);
   const subtitleRef = useRef(null);
   const paragraphRef = useRef(null);
+  const subtitlePart1Ref = useRef(null); // "<"
+  const subtitlePart2Ref = useRef(null); // "me"
+  const subtitlePart3Ref = useRef(null); // "/>"
   const splitTextInstance = useRef<{
-    chars?: Element[];
-    revert?: (() => void) | undefined;
-  } | null>(null);
-  const splitSubtitleInstance = useRef<{
     chars?: Element[];
     revert?: (() => void) | undefined;
   } | null>(null);
@@ -37,30 +36,29 @@ export default function About() {
     const ctx = gsap.context(() => {
       if (!titleRef.current || !subtitleRef.current) return;
 
-      // Split de caracteres para o título principal
-      gsap.set(titleRef.current, { overflow: 'hidden' });
+      // Split de caracteres para o título principal com wrapper para evitar corte
       splitTextInstance.current = new SplitText(titleRef.current, {
         type: 'chars',
-        charsClass: 'char-reveal inline-block overflow-hidden',
-      });
-
-      // Split de caracteres para o subtítulo
-      gsap.set(subtitleRef.current, { overflow: 'hidden' });
-      splitSubtitleInstance.current = new SplitText(subtitleRef.current, {
-        type: 'chars',
-        charsClass: 'char-reveal inline-block overflow-hidden',
+        charsClass: 'char-reveal inline-block',
       });
 
       // Split de linhas para o parágrafo
-      gsap.set(paragraphRef.current, { overflow: 'hidden' });
       splitParagraphInstance.current = new SplitText(paragraphRef.current, {
         type: 'lines',
         linesClass: 'line-reveal block overflow-hidden',
       });
 
       const titleChars = splitTextInstance.current?.chars ?? [];
-      const subtitleChars = splitSubtitleInstance.current?.chars ?? [];
       const paragraphLines = splitParagraphInstance.current?.lines ?? [];
+
+      // Wrap each char in an overflow hidden container
+      titleChars.forEach((char) => {
+        const wrapper = document.createElement('span');
+        wrapper.style.overflow = 'hidden';
+        wrapper.style.display = 'inline-block';
+        char.parentNode?.insertBefore(wrapper, char);
+        wrapper.appendChild(char);
+      });
 
       // Timeline principal
       const tl = gsap.timeline({
@@ -94,15 +92,22 @@ export default function About() {
         '-=0.3'
       );
 
-      // Animação do subtítulo com efeito de caracteres
+      // Animação do subtítulo "<me/>" dividido em 3 partes
+      const subtitleParts = [
+        subtitlePart1Ref.current,
+        subtitlePart2Ref.current,
+        subtitlePart3Ref.current,
+      ];
+
       tl.from(
-        subtitleChars,
+        subtitleParts,
         {
-          yPercent: 120,
-          rotationX: -30,
+          opacity: 0,
+          y: 30,
+          rotationX: -20,
           transformOrigin: 'center center',
           ease: 'circ.out',
-          stagger: 0.02,
+          stagger: 0.08,
           duration: 0.6,
         },
         '-=0.4'
@@ -125,7 +130,6 @@ export default function About() {
     return () => {
       ctx.revert();
       splitTextInstance.current?.revert?.();
-      splitSubtitleInstance.current?.revert?.();
       splitParagraphInstance.current?.revert?.();
     };
   }, []);
@@ -147,9 +151,17 @@ export default function About() {
         </TypographyH1>
         <TypographyH1
           ref={subtitleRef}
-          className="font-serif font-semibold italic text-[#ff1744]"
+          className="font-serif font-semibold italic text-[#ff1744] leading-none -translate-y-[0.15em]"
         >
-          {t('subtitle')}
+          <span ref={subtitlePart1Ref} className="inline-block">
+            {t('subtitle.part1')}
+          </span>
+          <span ref={subtitlePart2Ref} className="inline-block">
+            {t('subtitle.part2')}
+          </span>
+          <span ref={subtitlePart3Ref} className="inline-block">
+            {t('subtitle.part3')}
+          </span>
         </TypographyH1>
       </div>
       <TypographyP ref={paragraphRef} className="text-background">

@@ -28,7 +28,11 @@
     "locale": "en",
     "sectionTitle": "About",
     "title": "More about",
-    "subtitle": "<me/>",
+    "subtitle": {
+      "part1": "<",
+      "part2": "me",
+      "part3": "/>"
+    },
     "paragraph": "Software Engineering student with experience in Full Stack development. I'm interested in opportunities where I can apply my knowledge, learn continuously, and contribute solutions that add value to the company."
   }
 }

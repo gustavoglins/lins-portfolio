@@ -17,7 +17,7 @@ import { useEffect, useRef, useState } from 'react';
 
 export default function Home() {
   const t = useTranslations('HomePage');
-  const [showIntro, setShowIntro] = useState(true);
+  const [showIntro, setShowIntro] = useState(false);
   const [cvLanguage, setCvLanguage] = useState<'pt' | 'en'>('pt');
 
   // Refs para os elementos de underline
@@ -288,7 +288,7 @@ export default function Home() {
                 <li>
                   <Link
                     href="#about"
-                    className="relative inline-block cursor-pointer uppercase font-medium tracking-wider"
+                    className="relative inline-block cursor-pointer uppercase font-medium tracking-wider text-foreground/70 hover:text-foreground transition-colors duration-300"
                     onMouseEnter={(e) => handleMouseEnter(e, 0)}
                     onMouseLeave={() => handleMouseLeave(0)}
                   >
@@ -304,7 +304,7 @@ export default function Home() {
                 <li>
                   <Link
                     href="#experience"
-                    className="relative inline-block cursor-pointer uppercase font-medium tracking-wider"
+                    className="relative inline-block cursor-pointer uppercase font-medium tracking-wider text-foreground/70 hover:text-foreground transition-colors duration-300"
                     onMouseEnter={(e) => handleMouseEnter(e, 1)}
                     onMouseLeave={() => handleMouseLeave(1)}
                   >
@@ -322,7 +322,7 @@ export default function Home() {
                 <li>
                   <Link
                     href="#projects"
-                    className="relative inline-block cursor-pointer uppercase font-medium tracking-wider"
+                    className="relative inline-block cursor-pointer uppercase font-medium tracking-wider text-foreground/70 hover:text-foreground transition-colors duration-300"
                     onMouseEnter={(e) => handleMouseEnter(e, 2)}
                     onMouseLeave={() => handleMouseLeave(2)}
                   >
@@ -340,7 +340,7 @@ export default function Home() {
                 <li>
                   <Link
                     href="#contact"
-                    className="relative inline-block cursor-pointer uppercase font-medium tracking-wider"
+                    className="relative inline-block cursor-pointer uppercase font-medium tracking-wider text-foreground/70 hover:text-foreground transition-colors duration-300"
                     onMouseEnter={(e) => handleMouseEnter(e, 3)}
                     onMouseLeave={() => handleMouseLeave(3)}
                   >
@@ -424,7 +424,7 @@ export default function Home() {
                 <Avatar variant="portrait" size={1} ref={avatarRef}>
                   <AvatarImage
                     bw="hover"
-                    src="https://avatars.githubusercontent.com/u/145306272?s=400&u=366f479fd76b067a0a924c52fdb13cae699eca33&v=4"
+                    src="ahttps://avatars.githubusercontent.com/u/145306272?s=400&u=366f479fd76b067a0a924c52fdb13cae699eca33&v=4"
                     alt="Profile Picture"
                     className="rounded-sm"
                   />

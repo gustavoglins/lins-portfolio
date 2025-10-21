@@ -6,7 +6,7 @@ import { ScrollTrigger } from 'gsap/ScrollTrigger';
 import { Download, Menu } from 'lucide-react';
 import { useTranslations } from 'next-intl';
 import Link from 'next/link';
-import { useEffect, useRef } from 'react';
+import { useEffect, useRef, useState } from 'react';
 import LanguageToggle from './language-toggle';
 import { TypographyH2 } from './typography/TypographyH2';
 import { Button } from './ui/button';
@@ -24,6 +24,7 @@ export default function Header({ locale }: { locale: string }) {
   const headerRef = useRef<HTMLElement>(null);
   const logoRef = useRef<HTMLDivElement>(null);
   const navItemsRef = useRef<HTMLLIElement[]>([]);
+  const [isPopoverOpen, setIsPopoverOpen] = useState(false);
 
   useEffect(() => {
     if (!headerRef.current) return;
@@ -73,6 +74,9 @@ export default function Header({ locale }: { locale: string }) {
           } else if (scrollY <= threshold && isHeaderVisible) {
             // Esconder o header
             isHeaderVisible = false;
+
+            // Fechar o Popover se estiver aberto
+            setIsPopoverOpen(false);
 
             // Animar saída dos elementos com scale (encolhendo) - sincronizados
             gsap.to(animatableElements, {
@@ -130,7 +134,7 @@ export default function Header({ locale }: { locale: string }) {
                 if (el) navItemsRef.current[2] = el;
               }}
             >
-              <Popover>
+              <Popover open={isPopoverOpen} onOpenChange={setIsPopoverOpen}>
                 <PopoverTrigger asChild>
                   <Button
                     size="lg"
@@ -156,7 +160,7 @@ export default function Header({ locale }: { locale: string }) {
                           <li className="w-full">
                             <Link
                               href={`/${locale}`}
-                              className="flex items-center cursor-pointer w-full px-3 py-2 rounded-md transition-colors duration-200 hover:bg-[#ff1744]/10"
+                              className="flex items-center cursor-pointer w-full px-3 py-2 rounded-md transition-colors duration-300 hover:bg-[#ff1744]/10"
                             >
                               <p>{t('home')}</p>
                             </Link>
@@ -164,7 +168,7 @@ export default function Header({ locale }: { locale: string }) {
                           <li className="w-full">
                             <Link
                               href={`/${locale}#about`}
-                              className="flex items-center cursor-pointer w-full px-3 py-2 rounded-md transition-colors duration-200 hover:bg-[#ff1744]/10"
+                              className="flex items-center cursor-pointer w-full px-3 py-2 rounded-md transition-colors duration-300 hover:bg-[#ff1744]/10"
                             >
                               {t('about')}
                             </Link>
@@ -172,7 +176,7 @@ export default function Header({ locale }: { locale: string }) {
                           <li className="w-full">
                             <Link
                               href={`/${locale}#experience`}
-                              className="flex items-center cursor-pointer w-full px-3 py-2 rounded-md transition-colors duration-200 hover:bg-[#ff1744]/10"
+                              className="flex items-center cursor-pointer w-full px-3 py-2 rounded-md transition-colors duration-300 hover:bg-[#ff1744]/10"
                             >
                               {t('experience')}
                             </Link>
@@ -180,7 +184,7 @@ export default function Header({ locale }: { locale: string }) {
                           <li className="w-full">
                             <Link
                               href={`/${locale}#projects`}
-                              className="flex items-center cursor-pointer w-full px-3 py-2 rounded-md transition-colors duration-200 hover:bg-[#ff1744]/10"
+                              className="flex items-center cursor-pointer w-full px-3 py-2 rounded-md transition-colors duration-300 hover:bg-[#ff1744]/10"
                             >
                               {t('projects')}
                             </Link>
@@ -188,7 +192,7 @@ export default function Header({ locale }: { locale: string }) {
                           <li className="w-full">
                             <Link
                               href={`/${locale}#contact`}
-                              className="flex items-center cursor-pointer w-full px-3 py-2 rounded-md transition-colors duration-200 hover:bg-[#ff1744]/10"
+                              className="flex items-center cursor-pointer w-full px-3 py-2 rounded-md transition-colors duration-300 hover:bg-[#ff1744]/10"
                             >
                               {t('contact')}
                             </Link>

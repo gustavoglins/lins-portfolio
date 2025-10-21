@@ -28,7 +28,11 @@
     "locale": "en",
     "sectionTitle": "Sobre",
     "title": "Mais sobre",
-    "subtitle": "<mim/>",
+    "subtitle": {
+      "part1": "<",
+      "part2": "mim",
+      "part3": "/>"
+    },
     "paragraph": "Estudante de Engenharia de Software no 4º semestre, com experiência prática em desenvolvimento full stack. Tenho interesse em oportunidades onde possa aplicar meus conhecimentos, aprender continuamente e contribuir com soluções que agreguem valor à empresa. Proativo, responsável e colaborativo."
   }
 }

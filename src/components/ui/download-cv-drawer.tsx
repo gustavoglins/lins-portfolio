@@ -1,4 +1,4 @@
-"use client";
+'use client';
 
 import { Download } from 'lucide-react';
 import { useTranslations } from 'next-intl';
@@ -32,7 +32,8 @@ export default function DownloadCvDrawer({
   const [cvLanguage, setCvLanguage] = useState<'pt' | 'en'>('pt');
 
   const handleDownloadCV = () => {
-    const fileName = cvLanguage === 'pt' ? 'gustavoglins-cv.pdf' : 'gustavoglins-cv-en.pdf';
+    const fileName =
+      cvLanguage === 'pt' ? 'gustavoglins-cv.pdf' : 'gustavoglins-cv-en.pdf';
     const filePath = `/cv/${fileName}`;
 
     const link = document.createElement('a');
@@ -96,42 +97,91 @@ export default function DownloadCvDrawer({
         )}
       </DrawerTrigger>
 
-      <DrawerContent className={theme === 'dark' ? 'bg-foreground border-[#ffffff1a]' : 'border-[#e5e5e5]'}>
+      <DrawerContent
+        className={
+          theme === 'dark'
+            ? 'bg-foreground border-[#ffffff1a]'
+            : 'border-[#e5e5e5]'
+        }
+      >
         <div className="mx-auto w-full max-w-sm">
           <DrawerHeader>
-            <DrawerTitle className={theme === 'dark' ? 'text-[#fafafa]' : ''}>{t('drawer.title')}</DrawerTitle>
-            <DrawerDescription className={theme === 'dark' ? 'text-[#a1a1a1]' : ''}>{t('drawer.description')}</DrawerDescription>
+            <DrawerTitle className={theme === 'dark' ? 'text-[#fafafa]' : ''}>
+              {t('drawer.title')}
+            </DrawerTitle>
+            <DrawerDescription
+              className={theme === 'dark' ? 'text-[#a1a1a1]' : ''}
+            >
+              {t('drawer.description')}
+            </DrawerDescription>
           </DrawerHeader>
           <DrawerFooter>
             <div className="mb-4">
               <div className="flex flex-col gap-4 py-4">
-                <p className={theme === 'dark' ? 'text-sm text-[#fafafa]' : ''}>{t('drawer.label')}</p>
-                <div className={`flex w-full gap-1 p-1 rounded-lg ${theme === 'dark' ? 'bg-[#262626]' : ''}`}>
+                <p className={theme === 'dark' ? 'text-sm text-[#fafafa]' : ''}>
+                  {t('drawer.label')}
+                </p>
+                <div
+                  className={`flex w-full gap-1 p-1 rounded-lg ${
+                    theme === 'dark' ? 'bg-[#262626]' : 'bg-gray-100'
+                  }`}
+                >
                   <button
                     onClick={() => setCvLanguage('pt')}
-                    className={`flex-1 flex items-center justify-center gap-2 px-4 py-3 rounded-md transition-all duration-200 cursor-pointer ${cvLanguage === 'pt'
-                      ? `${theme === 'dark' ? 'bg-[#0a0a0a] text-[#fafafa] shadow-md ring-1 ring-[#ffffff1a]' : 'bg-white text-gray-900 shadow-md ring-1 ring-gray-200'}`
-                      : `${theme === 'dark' ? 'text-[#9b9b9b]' : 'text-gray-500 hover:text-gray-700'}`
-                      }`}
+                    className={`flex-1 flex items-center justify-center gap-2 px-4 py-3 rounded-md transition-all duration-200 cursor-pointer ${
+                      cvLanguage === 'pt'
+                        ? `${
+                            theme === 'dark'
+                              ? 'bg-[#0a0a0a] text-[#fafafa] shadow-md ring-1 ring-[#ffffff1a]'
+                              : 'bg-white text-gray-900 shadow-md ring-1 ring-gray-200'
+                          }`
+                        : `${
+                            theme === 'dark'
+                              ? 'text-[#9b9b9b]'
+                              : 'text-gray-500 hover:text-gray-700'
+                          }`
+                    }`}
                   >
-                    <Image src="/images/brazil-flag.svg" alt="Brazil Flag" width={20} height={15} />
+                    <Image
+                      src="/images/brazil-flag.svg"
+                      alt="Brazil Flag"
+                      width={20}
+                      height={15}
+                    />
                     <span className="text-sm font-semibold">PT-BR</span>
                   </button>
                   <button
                     onClick={() => setCvLanguage('en')}
-                    className={`flex-1 flex items-center justify-center gap-2 px-4 py-3 rounded-md transition-all duration-200 cursor-pointer ${cvLanguage === 'en'
-                      ? `${theme === 'dark' ? 'bg-[#0a0a0a] text-[#fafafa] shadow-md ring-1 ring-[#ffffff1a]' : 'bg-white text-gray-900 shadow-md ring-1 ring-gray-200'}`
-                      : `${theme === 'dark' ? 'text-[#9b9b9b]' : 'text-gray-500 hover:text-gray-700'}`
-                      }`}
+                    className={`flex-1 flex items-center justify-center gap-2 px-4 py-3 rounded-md transition-all duration-200 cursor-pointer ${
+                      cvLanguage === 'en'
+                        ? `${
+                            theme === 'dark'
+                              ? 'bg-[#0a0a0a] text-[#fafafa] shadow-md ring-1 ring-[#ffffff1a]'
+                              : 'bg-white text-gray-900 shadow-md ring-1 ring-gray-200'
+                          }`
+                        : `${
+                            theme === 'dark'
+                              ? 'text-[#9b9b9b]'
+                              : 'text-gray-500 hover:text-gray-700'
+                          }`
+                    }`}
                   >
-                    <Image src="/images/usa-flag.svg" alt="USA Flag" width={20} height={15} />
+                    <Image
+                      src="/images/usa-flag.svg"
+                      alt="USA Flag"
+                      width={20}
+                      height={15}
+                    />
                     <span className="text-sm font-semibold">EN-US</span>
                   </button>
                 </div>
               </div>
             </div>
             <DrawerClose asChild>
-              <Button variant={theme === 'dark' ? 'reverse' : 'default'} onClick={handleDownloadCV}>
+              <Button
+                variant={theme === 'dark' ? 'reverse' : 'default'}
+                onClick={handleDownloadCV}
+              >
                 Download
               </Button>
             </DrawerClose>
